@@ -7,5 +7,5 @@ extern Drive chassis;
 void default_constants();
 void tune_PID();
 
-void skills_auton();
+void bottom_simple();
 

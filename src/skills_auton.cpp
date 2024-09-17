@@ -3,6 +3,13 @@
 #include "helper_functions.hpp"
 #include "main.h"
 
+const int DRIVE_SPEED = 110; // This is 110/127 (around 87% of max speed). When this is 87%, the robot is correcting by making one side
+                            // faster and one side slower, giving better heading correction.
+const int TURN_SPEED = 75;
+const int SWING_SPEED = 90;
+const int INTAKE_SPEED = 500;
+char clamp_port = 'A';
+
 void default_constants() //TUNE PID BASED OFF COMMENTS MADE BELOW
 {
   chassis.set_slew_min_power(80, 80);
@@ -34,17 +41,7 @@ Sometimes you need a little extra power to get your robot all the way there. Int
 Increase kI until any minor disturbances are accounted for. You might need to adjust kD while tuning kI.
 */
 
-const int DRIVE_SPEED = 110;
-const int Drive_speed = 110; // This is 110/127 (around 87% of max speed). When this is 87%, the robot is correcting by making one side
-                            // faster and one side slower, giving better heading correction.
-const int TURN_SPEED = 75;
-const int SWING_SPEED = 90;
 
-///
-// Combining Turn + Drive basic set-up as of 10/8/23
-///
-
-//11/20/2023 UCB auton - Raymond
 
 void tune_PID(){
   //go straight
@@ -55,12 +52,26 @@ void tune_PID(){
   //swing turn left
   //go straight for a while to check heading
 }                                                                                                                                                                                                                                                                                                                                                                                                               
-// ------------------------------------------------------Skillz v
-void skills_auton() {
+
+// Path 2 (Simple): Red, 2 donuts and touches
+void bottom_simple() {
+  // Set-up: piston to ADI port clamp_port
+  bool clamp_state = false;
+  pros::ADIDigitalOut clamp (clamp_port);
+  clamp.set_value(clamp_state); // retracted (unclamped)
+
+  // Begin movement
+  move_drive_wait(-20, DRIVE_SPEED);
+  clamp.set_value(!clamp_state); // clamps down on bottom left mogol
+
+  // turn intake towards stacked rings (target is bottom red)
+  turn_drive_wait(-110, TURN_SPEED);
+  move_drive_wait(20, DRIVE_SPEED);
+
+  // intake and turn + move to touch Ladder
+  intaker_wait(INTAKE_SPEED, 2200);
+  turn_drive_wait(-195, TURN_SPEED);
+  move_drive_wait(30, DRIVE_SPEED);
 
 }
-
-//------------------------------------------------ Skillz ^ ------------------------------------------------------
-
-
 

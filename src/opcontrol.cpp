@@ -7,6 +7,7 @@
 // local variable defined
 const int vel = 600;
 bool clamp_state = false;
+char clamp_port = 'A';
 
 
 
@@ -27,7 +28,7 @@ void intakes() {
 }
 
 void clamps() {
-    pros::ADIDigitalOut clamp ('A'); // port 'H'
+    pros::ADIDigitalOut clamp (clamp_port); // port 'A'
     clamp.set_value(clamp_state); // retracted
 
     while (true) {
