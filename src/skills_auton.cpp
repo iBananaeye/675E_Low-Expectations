@@ -75,3 +75,26 @@ void bottom_simple() {
 
 }
 
+void bottom_ring_first() {
+  // Set-up: piston to ADI port clamp_port
+  bool clamp_state = false;
+  pros::ADIDigitalOut clamp (clamp_port);
+  clamp.set_value(clamp_state); // retracted (unclamped)
+
+  // Begin movement
+  move_drive_wait(-20, DRIVE_SPEED);
+  clamp.set_value(!clamp_state); // clamps down on bottom left mogol
+
+  // turn intake towards stacked rings (target is bottom red)
+  turn_drive_wait(-110, TURN_SPEED);
+  move_drive_wait(20, DRIVE_SPEED);
+
+  // intake and turn + move to touch Ladder
+  intaker_wait(INTAKE_SPEED, 2200);
+  turn_drive_wait(-195, TURN_SPEED);
+  move_drive_wait(30, DRIVE_SPEED);
+
+}
+
+
+
