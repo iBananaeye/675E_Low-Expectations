@@ -6,7 +6,7 @@ Drive chassis (
   {19,-20,-9}
 
   // Right Chassis Ports
-  ,{-12,2,1} //10, 5, 7, 
+  ,{-12,2,1}
 
   // IMU Port
   ,8
