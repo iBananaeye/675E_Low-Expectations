@@ -8,7 +8,7 @@ const int DRIVE_SPEED = 110; // This is 110/127 (around 87% of max speed). When 
 const int TURN_SPEED = 75;
 const int SWING_SPEED = 90;
 const int INTAKE_SPEED = 500;
-char clamp_port = 'A';
+char clamp_portAUTON = 'A';
 
 void default_constants() //TUNE PID BASED OFF COMMENTS MADE BELOW
 {
@@ -57,7 +57,7 @@ void tune_PID(){
 void bottom_simple() {
   // Set-up: piston to ADI port clamp_port
   bool clamp_state = false;
-  pros::ADIDigitalOut clamp (clamp_port);
+  pros::ADIDigitalOut clamp (clamp_portAUTON);
   clamp.set_value(clamp_state); // retracted (unclamped)
 
   // Begin movement
@@ -78,7 +78,7 @@ void bottom_simple() {
 void bottom_ring_first() {
   // Set-up: piston to ADI port clamp_port
   bool clamp_state = false;
-  pros::ADIDigitalOut clamp (clamp_port);
+  pros::ADIDigitalOut clamp (clamp_portAUTON);
   clamp.set_value(clamp_state); // retracted (unclamped)
 
   // Begin movement

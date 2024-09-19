@@ -19,10 +19,7 @@
 #define _PROS_MAIN_H_
 
 #define WING_LEFT 'G'//g
-#define WING_RIGHT 'B'//b
-#define INTAKE_PORT 1
-#define CATAPULT_PORT 20
-#define HANG_PORT1 'H'//h
+
 
 /**
  * If defined, some commonly used enums will have preprocessor macros which give

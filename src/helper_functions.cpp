@@ -4,13 +4,18 @@
 #include "pros/motors.h"
 
 void intaker(double v) {
-    intake.move_velocity(v);
+    intake.move_velocity(-v);
+    conveyor.move_velocity(v);
 }
 
 void intaker_wait(double v,int time) {
-    intake.move_velocity(v);
+    intake.move_velocity(-v);
+    conveyor.move_velocity(v);
+
     pros::delay(time);
+    
     intake.move_velocity(0);
+    conveyor.move_velocity(0);
 }
 
 //---------

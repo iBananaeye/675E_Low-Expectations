@@ -3,13 +3,13 @@
 #include "pros/motors.h"
 Drive chassis (
   // Left Chassis Ports (negative port will reverse it)
-  {-11,-16,-20}
+  {19,-20,-9}
 
   // Right Chassis Ports
-  ,{7,5,9} //10, 5, 7, 
+  ,{-12,2,1} //10, 5, 7, 
 
   // IMU Port
-  ,5
+  ,8
 
   // Wheel Diameter (Remember, 4" wheels are actually 4.125!)
   //    (or tracking wheel diameter)
