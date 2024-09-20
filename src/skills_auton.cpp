@@ -8,7 +8,7 @@ const int DRIVE_SPEED = 110; // This is 110/127 (around 87% of max speed). When 
 const int TURN_SPEED = 75;
 const int SWING_SPEED = 90;
 const int INTAKE_SPEED = 500;
-char clamp_portAUTON = 'A';
+char clamp_portAUTON = 'E';
 
 void default_constants() //TUNE PID BASED OFF COMMENTS MADE BELOW
 {

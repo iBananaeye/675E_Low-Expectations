@@ -37,6 +37,7 @@ void clamps() {
         if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
             clamp.set_value(!clamp_state);
             clamp_state = !clamp_state;
+            wait(1000);
         }
     }
     pros::delay(ez::util::DELAY_TIME);
