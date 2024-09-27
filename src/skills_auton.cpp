@@ -96,5 +96,26 @@ void bottom_ring_first() {
 
 }
 
+//Red, 2 rings, midline goal, touches
+void mid_line_rush(){
+  bool clamp_state = false;
+  pros::ADIDigitalOut clamp (clamp_port);
+  clamp.set_value(clamp_state); // retracted (unclamped)
+
+  //turn and get midline mogol 
+  turn_drive_wait(20, TURN_SPEED); 
+  move_drive_wait(40, DRIVE_SPEED);
+  clamp.set_value(!clamp_state);
+
+  //get bottom red ring
+  turn_drive_wait(-45, TURN_SPEED);
+  move_drive_wait(10, DRIVE_SPEED);
+  intaker_wait(INTAKE_SPEED, 2200);
+
+  //touch ladder
+  turn_drive_wait(-45, TURN_SPEED);
+  move_drive_wait(20, DRIVE_SPEED);
+}
+
 
 
