@@ -5,6 +5,6 @@
 #### Github repository created.
 ### 08/20/24
 #### Driver controls coded for clamp, drive, and intake.
-##### L ports: 
-##### R ports: 
+##### L ports: {18,-20,-9}
+##### R ports: {-19,2,1}
 #### Pneumatics added to adi port G.
