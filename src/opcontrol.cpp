@@ -8,7 +8,7 @@
 // local variable defined
 const int vel = 600;
 bool clamp_state = false;
-char clamp_portOP = 'E';
+char clamp_portOP = 'G';
 
 
 
@@ -34,10 +34,10 @@ void clamps() {
     clamp.set_value(clamp_state); // retracted
 
     while (true) {
-        if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
+        if (master.get_digital(pros::E_CONTROLLER_DIGITAL_A)) {
             clamp.set_value(!clamp_state);
             clamp_state = !clamp_state;
-            wait(1000);
+            wait(460);
         }
     }
     pros::delay(ez::util::DELAY_TIME);

@@ -13,6 +13,7 @@ Drive chassis (
 
   // Wheel Diameter (Remember, 4" wheels are actually 4.125!)
   //    (or tracking wheel diameter)
+
   ,3.25
 
   // Cartridge RPM
@@ -83,7 +84,7 @@ void autonomous() {
   	//ez::as::auton_selector.call_selected_auton(); // Calls selected auton from autonomous selector.
 
 
-
+  bottom_simple();
     // HERE NGUYENS---------------------------------------------------------------------
   // scorer(); // depending on which one you want to run, put the function name here.
 }

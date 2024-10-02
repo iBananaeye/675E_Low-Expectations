@@ -93,7 +93,7 @@ void bottom_ring_first() {
   intaker_wait(INTAKE_SPEED, 2200);
   turn_drive_wait(-195, TURN_SPEED);
   move_drive_wait(30, DRIVE_SPEED);
-
+  
 }
 
 
