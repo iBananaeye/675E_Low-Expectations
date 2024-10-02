@@ -84,7 +84,7 @@ void autonomous() {
   	//ez::as::auton_selector.call_selected_auton(); // Calls selected auton from autonomous selector.
 
 
-  bottom_simple();
+  bottom_red_simple();
     // HERE NGUYENS---------------------------------------------------------------------
   // scorer(); // depending on which one you want to run, put the function name here.
 }

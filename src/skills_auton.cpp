@@ -54,7 +54,7 @@ void tune_PID(){
 }                                                                                                                                                                                                                                                                                                                                                                                                               
 
 // Path 2 (Simple): Red, 2 donuts and touches
-void bottom_simple() {
+void bottom_red_simple() {
   // Set-up: piston to ADI port clamp_port
   bool clamp_state = false;
   pros::ADIDigitalOut clamp (clamp_portAUTON);
@@ -74,8 +74,8 @@ void bottom_simple() {
   move_drive_wait(30, DRIVE_SPEED);
 
 }
-
-void bottom_ring_first() {
+// Path 4: bottom blue simple
+void bottom_blue_simple() {
   // Set-up: piston to ADI port clamp_port
   bool clamp_state = false;
   pros::ADIDigitalOut clamp (clamp_portAUTON);
@@ -85,15 +85,35 @@ void bottom_ring_first() {
   move_drive_wait(-20, DRIVE_SPEED);
   clamp.set_value(!clamp_state); // clamps down on bottom left mogol
 
-  // turn intake towards stacked rings (target is bottom red)
-  turn_drive_wait(-110, TURN_SPEED);
+  // turn intake towards stacked rings (target is bottom blue)
+  turn_drive_wait(90, TURN_SPEED);
   move_drive_wait(20, DRIVE_SPEED);
 
   // intake and turn + move to touch Ladder
   intaker_wait(INTAKE_SPEED, 2200);
-  turn_drive_wait(-195, TURN_SPEED);
+  turn_drive_wait(195, TURN_SPEED);
   move_drive_wait(30, DRIVE_SPEED);
   
+}
+
+void mid_red_line_rush(){
+  bool clamp_state = false;
+  pros::ADIDigitalOut clamp (clamp_portAUTON);
+  clamp.set_value(clamp_state); // retracted (unclamped)
+
+  //turn and get midline mogol 
+  turn_drive_wait(20, TURN_SPEED); 
+  move_drive_wait(40, DRIVE_SPEED);
+  clamp.set_value(!clamp_state);
+
+  //get bottom red ring
+  turn_drive_wait(-45, TURN_SPEED);
+  move_drive_wait(10, DRIVE_SPEED);
+  intaker_wait(INTAKE_SPEED, 2200);
+
+  //touch ladder
+  turn_drive_wait(-45, TURN_SPEED);
+  move_drive_wait(20, DRIVE_SPEED);
 }
 
 
