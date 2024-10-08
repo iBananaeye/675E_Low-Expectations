@@ -73,11 +73,11 @@
             "-funwind-tables",
             "--std=gnu++17",
             "-o",
-            "bin/skills_auton.cpp.o",
-            "src\\skills_auton.cpp"
+            "bin/opcontrol.cpp.o",
+            "src\\opcontrol.cpp"
         ],
         "directory": "C:\\Users\\doanb\\OneDrive\\Desktop\\Skills Auton\\Skills Auton",
-        "file": "src\\skills_auton.cpp"
+        "file": "src\\opcontrol.cpp"
     },
     {
         "arguments": [
@@ -193,10 +193,10 @@
             "-funwind-tables",
             "--std=gnu++17",
             "-o",
-            "bin/opcontrol.cpp.o",
-            "src\\opcontrol.cpp"
+            "bin/skills_auton.cpp.o",
+            "src\\skills_auton.cpp"
         ],
         "directory": "C:\\Users\\doanb\\OneDrive\\Desktop\\Skills Auton\\Skills Auton",
-        "file": "src\\opcontrol.cpp"
+        "file": "src\\skills_auton.cpp"
     }
 ]

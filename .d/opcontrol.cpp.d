@@ -80,7 +80,7 @@ bin/opcontrol.cpp.o: src/opcontrol.cpp include/helper_functions.hpp \
  include/EZ-Template/util.hpp include/api.h include/EZ-Template/auton.hpp \
  include/EZ-Template/auton_selector.hpp \
  include/EZ-Template/drive/drive.hpp include/EZ-Template/sdcard.hpp \
- include/config.hpp include/auton.hpp include/opcontrol.hpp
+ include/config.hpp include/skills_auton.hpp include/opcontrol.hpp
 include/helper_functions.hpp:
 include/api.h:
 include/pros/adi.h:
@@ -244,5 +244,5 @@ include/EZ-Template/auton_selector.hpp:
 include/EZ-Template/drive/drive.hpp:
 include/EZ-Template/sdcard.hpp:
 include/config.hpp:
-include/auton.hpp:
+include/skills_auton.hpp:
 include/opcontrol.hpp:

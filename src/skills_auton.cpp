@@ -1,4 +1,5 @@
 #include "EZ-Template/util.hpp"
+#include "skills_auton.hpp"
 #include "display/lv_hal/lv_hal_indev.h"
 #include "helper_functions.hpp"
 #include "main.h"
@@ -8,7 +9,7 @@ const int DRIVE_SPEED = 110; // This is 110/127 (around 87% of max speed). When 
 const int TURN_SPEED = 75;
 const int SWING_SPEED = 90;
 const int INTAKE_SPEED = 500;
-char clamp_portAUTON = 'E';
+char clamp_portAUTON = 'G';
 
 void default_constants() //TUNE PID BASED OFF COMMENTS MADE BELOW
 {
@@ -61,17 +62,21 @@ void bottom_red_simple() {
   clamp.set_value(clamp_state); // retracted (unclamped)
 
   // Begin movement
-  move_drive_wait(-20, DRIVE_SPEED);
+  move_drive_wait(-27, DRIVE_SPEED);
   clamp.set_value(!clamp_state); // clamps down on bottom left mogol
+  wait(500);
 
   // turn intake towards stacked rings (target is bottom red)
   turn_drive_wait(-110, TURN_SPEED);
-  move_drive_wait(20, DRIVE_SPEED);
+  move_drive_wait(10, DRIVE_SPEED);
+  // intaker_wait(INTAKE_SPEED, 1800);
+  intaker(400);
+  move_drive_wait(15, DRIVE_SPEED);
 
   // intake and turn + move to touch Ladder
-  intaker_wait(INTAKE_SPEED, 2200);
-  turn_drive_wait(-195, TURN_SPEED);
+  turn_drive_wait(-240, TURN_SPEED);
   move_drive_wait(30, DRIVE_SPEED);
+  intaker(0);
 
 }
 // Path 4: bottom blue simple

@@ -41,7 +41,7 @@
 #define PROS_USE_LITERALS
 
 #include "api.h"
-#include "auton.hpp"
+#include "skills_auton.hpp"
 #include "opcontrol.hpp"
 #include "helper_functions.hpp"
 #include "config.hpp"

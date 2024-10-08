@@ -79,8 +79,8 @@ bin/config.cpp.o: src/config.cpp include/main.h \
  include/pros/vision.h include/pros/link.hpp include/pros/link.h \
  include/EZ-Template/auton.hpp include/EZ-Template/auton_selector.hpp \
  include/EZ-Template/drive/drive.hpp include/EZ-Template/sdcard.hpp \
- include/config.hpp include/api.h include/auton.hpp include/opcontrol.hpp \
- include/helper_functions.hpp include/pros/adi.hpp \
+ include/config.hpp include/api.h include/skills_auton.hpp \
+ include/opcontrol.hpp include/helper_functions.hpp include/pros/adi.hpp \
  include/pros/motors.hpp
 include/main.h:
 include/EZ-Template/api.hpp:
@@ -244,7 +244,7 @@ include/EZ-Template/drive/drive.hpp:
 include/EZ-Template/sdcard.hpp:
 include/config.hpp:
 include/api.h:
-include/auton.hpp:
+include/skills_auton.hpp:
 include/opcontrol.hpp:
 include/helper_functions.hpp:
 include/pros/adi.hpp:

@@ -3,13 +3,13 @@
 #include "pros/motors.h"
 Drive chassis (
   // Left Chassis Ports (negative port will reverse it)
-  {19,-20,-9}
+  {-18,-20,-9}
 
   // Right Chassis Ports
-  ,{-12,2,1}
+  ,{19,2,1}
 
   // IMU Port
-  ,8
+  ,7
 
   // Wheel Diameter (Remember, 4" wheels are actually 4.125!)
   //    (or tracking wheel diameter)
@@ -85,8 +85,6 @@ void autonomous() {
 
 
   bottom_red_simple();
-    // HERE NGUYENS---------------------------------------------------------------------
-  // scorer(); // depending on which one you want to run, put the function name here.
 }
 
 /**
