@@ -9,4 +9,5 @@ void tune_PID();
 
 void bottom_simple();
 void bottom_ring_first();
+void skills();
 

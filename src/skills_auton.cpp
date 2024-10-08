@@ -117,5 +117,84 @@ void mid_line_rush(){
   move_drive_wait(20, DRIVE_SPEED);
 }
 
+void skills(){
+  bool clamp_state = false;
+  pros::ADIDigitalOut clamp (clamp_port);
+  clamp.set_value(clamp_state); // retracted (unclamped)
+
+  //red
+  turn_drive_wait(-45, TURN_SPEED);
+  move_drive_wait(10, DRIVE_SPEED);
+  clamp.set_value(!clamp_state); //get mogol
+  move_drive_wait(-20, DRIVE_SPEED);
+  intake_wait(INTAKE_SPEED, 3000); //score 2 rings
+  turn_drive_wait(-180, TURN_SPEED);
+  move_drive_wait(5, DRIVE_SPEED);
+  intake_wait(INTAKE_SPEED, 2200);
+  turn_drive_wait(-90, TURN_SPEED);
+  move_drive_wait(5, DRIVE_SPEED);
+  intake_wait(INTAKE_SPEED, 2200);
+  turn_drive_wait(-135, TURN_SPEED);
+  move_drive_wait(30, DRIVE_SPEED);
+  intake_wait(INTAKE_SPEED, 2200);
+  turn_drive_wait(-270, TURN_SPEED);
+  move_drive_wait(40, DRIVE_SPEED);
+  intake_wait(INTAKE_SPEED, 2200);
+  clamp.set_value(clamp_state); 
+
+  //orange
+  turn_drive_wait(-135, TURN_SPEED);
+  move_drive_wait(50, DRIVE_SPEED);
+  intake_wait(INTAKE_SPEED, 1000);
+  turn_drive_wait(-315, TURN_SPEED);
+  move_drive_wait(50, DRIVE_SPEED);
+  intake_wait(INTAKE_SPEED, 1000); //2 rings on the robot
+  turn_drive_wait(-180, TURN_SPEED);
+  move_drive_wait(50, DRIVE_SPEED);
+  clamp.set_value(!clamp_state); //get mogol
+  intake_wait(INTAKE_SPEED, 1200); //score the 2 rings on the robot
+  turn_drive_wait(-270, TURN_SPEED);
+  move_drive_wait(20, DRIVE_SPEED); 
+  intake_wait(INTAKE_SPEED, 2200); //3 rings scored
+  turn_drive_wait(0, TURN_SPEED);
+  move_drive_wait(5, DRIVE_SPEED);
+  intake_wait(INTAKE_SPEED, 2200); //4 rings scored
+  turn_drive_wait(-225, TURN_SPEED);
+  move_drive_wait(10, DRIVE_SPEED); 
+  intake_wait(INTAKE_SPEED, 2200); //5 rings scored
+  turn_drive_wait(-135, TURN_SPEED);
+  move_drive_wait(50, DRIVE_SPEED);
+  intake_wait(INTAKE_SPEED, 2200); //6 rings scored
+  clamp.set_value(clamp_state); 
+
+  //yellow
+  turn_drive_wait(-225, TURN_SPEED);
+  move_drive_wait(30, DRIVE_SPEED);
+  intake_wait(INTAKE_SPEED, 1000); 
+  turn_drive_wait(-135, TURN_SPEED); 
+  move_drive_wait(30, DRIVE_SPEED);
+  intake_wait(INTAKE_SPEED, 1000); //2 rings stored
+  turn_drive_wait(80, TURN_SPEED);
+  move_drive_wait(60, DRIVE_SPEED);
+  clamp.set_value(!clamp_state); //get mogol
+  intake_wait(INTAKE_SPEED, 1200); //score 2 rings
+  turn_drive_wait(70, TURN_SPEED);
+  move_drive_wait(20, DRIVE_SPEED);
+  intake_wait(INTAKE_SPEED, 2200); //3 rings scored
+  turn_drive_wait(-100, TURN_SPEED);
+  move_drive_wait(40, DRIVE_SPEED);
+  turn_drive_wait(-45, TURN_SPEED);
+  move_drive_wait(40, DRIVE_SPEED);
+  intake_wait(INTAKE_SPEED, 2200); //4 rings scored
+  turn_drive_wait(-90, TURN_SPEED);
+  move_drive_wait(30, DRIVE_SPEED);
+  intake_wait(INTAKE_SPEED, 2200); //5 rings scored
+  turn_drive_wait(-45, TURN_SPEED);
+  move_drive_wait(40, DRIVE_SPEED);
+  intake_wait(INTAKE_SPEED, 2200); //6 rings scored
+  clamp.set_value(clamp_state); 
+}
+
+
 
 
