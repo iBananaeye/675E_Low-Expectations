@@ -85,7 +85,7 @@ void autonomous() {
   	//ez::as::auton_selector.call_selected_auton(); // Calls selected auton from autonomous selector.
 
 
-  bottom_blue_simple();
+  top_blue_simple();
 }
 
 /**

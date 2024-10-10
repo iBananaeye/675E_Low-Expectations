@@ -57,7 +57,7 @@ void wall_score() {
             arm.move_velocity(-arm_vel);
             wait(700);
             arm.move_velocity(0);
-            arm.move_absolute(75, arm_vel);
+            // arm.move_absolute(75, arm_vel);
             arm_down = !arm_down;
             arm_set = true;
         }

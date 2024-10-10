@@ -81,6 +81,60 @@ void bottom_red_simple() {
   clamp.set_value(clamp_state);
 
 }
+
+// bottom red hard
+void bottom_red_hard() {
+  // Set-up: piston to ADI port clamp_port
+  bool clamp_state = false;
+  pros::ADIDigitalOut clamp (clamp_portAUTON);
+  clamp.set_value(clamp_state); // retracted (unclamped)
+
+  // Begin movement
+  move_drive_wait(-32, DRIVE_SPEED-20);
+  clamp.set_value(!clamp_state); // clamps down on bottom left mogol
+  wait(500);
+
+  // turn intake towards stacked rings (target is bottom red)
+  turn_drive_wait(-110, TURN_SPEED);
+  move_drive_wait(10, DRIVE_SPEED);
+
+  intaker(400);
+  move_drive_wait(15, DRIVE_SPEED);
+  wait(500);
+  turn_drive_wait(-50, TURN_SPEED);
+  wait(1500);
+  intaker(0);
+  move_drive_wait(30, DRIVE_SPEED-30);
+  clamp.set_value(clamp_state);
+
+}
+
+void top_red_simple() {
+// Set-up: piston to ADI port clamp_port
+  bool clamp_state = false;
+  pros::ADIDigitalOut clamp (clamp_portAUTON);
+  clamp.set_value(clamp_state); // retracted (unclamped)
+  wait(1000);
+  // Begin movement
+  move_drive_wait(-29, DRIVE_SPEED);
+  clamp.set_value(!clamp_state); // clamps down on bottom left mogol
+
+  // turn intake towards stacked rings (target is bottom blue)
+  turn_drive_wait(110, TURN_SPEED);
+  intaker(400);
+  move_drive_wait(20, DRIVE_SPEED);
+
+  // intake and turn + move to touch Ladder
+  turn_drive_wait(120, TURN_SPEED);
+  move_drive_wait(30, DRIVE_SPEED);
+  wait(1000);
+  move_drive_wait(-20, DRIVE_SPEED);
+  clamp.set_value(clamp_state);
+  intaker(0);
+
+}
+
+
 // Work In Progress ----------------------------
 // void bottom_blue_possibly() {
 //   // Set-up: piston to ADI port clamp_port
@@ -155,6 +209,35 @@ void bottom_blue_simple() {
   clamp.set_value(clamp_state);
   intaker(0);
   
+}
+
+void top_blue_simple() {
+// Set-up: piston to ADI port clamp_port
+  bool clamp_state = false;
+  pros::ADIDigitalOut clamp (clamp_portAUTON);
+  clamp.set_value(clamp_state); // retracted (unclamped)
+
+  // Begin movement
+  move_drive_wait(-32, DRIVE_SPEED-20);
+  clamp.set_value(!clamp_state); // clamps down on bottom left mogol
+  wait(500);
+
+  // turn intake towards stacked rings (target is bottom red)
+  turn_drive_wait(-110, TURN_SPEED);
+  move_drive_wait(10, DRIVE_SPEED);
+
+  intaker(400);
+  move_drive_wait(15, DRIVE_SPEED);
+  wait(500);
+  turn_drive_wait(-180, TURN_SPEED);
+  wait(1500);
+  move_drive_wait(10, DRIVE_SPEED-30);
+  wait(4000);
+  intaker(0);
+
+  clamp.set_value(clamp_state);
+
+
 }
 
 
