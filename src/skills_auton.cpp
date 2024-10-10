@@ -6,9 +6,9 @@
 
 const int DRIVE_SPEED = 110; // This is 110/127 (around 87% of max speed). When this is 87%, the robot is correcting by making one side
                             // faster and one side slower, giving better heading correction.
-const int TURN_SPEED = 75;
+const int TURN_SPEED = 65;
 const int SWING_SPEED = 90;
-const int INTAKE_SPEED = 500;
+const int INTAKE_SPEED = 550;
 char clamp_portAUTON = 'G';
 
 void default_constants() //TUNE PID BASED OFF COMMENTS MADE BELOW
@@ -53,7 +53,7 @@ void tune_PID(){
   //swing turn left
   //go straight for a while to check heading
 }                                                                                                                                                                                                                                                                                                                                                                                                               
-
+//---------------------------------------------------------------------- Authons YR 2024-2025
 // Path 2 (Simple): Red, 2 donuts and touches
 void bottom_red_simple() {
   // Set-up: piston to ADI port clamp_port
@@ -74,33 +74,44 @@ void bottom_red_simple() {
   move_drive_wait(15, DRIVE_SPEED);
 
   // intake and turn + move to touch Ladder
-  turn_drive_wait(-240, TURN_SPEED);
-  move_drive_wait(30, DRIVE_SPEED);
+  turn_drive_wait(-252, TURN_SPEED);
+  move_drive_wait(30, DRIVE_SPEED-40);
   intaker(0);
 
+  clamp.set_value(clamp_state);
+
 }
-// Path 4: bottom blue simple
-void bottom_blue_simple() {
-  // Set-up: piston to ADI port clamp_port
-  bool clamp_state = false;
-  pros::ADIDigitalOut clamp (clamp_portAUTON);
-  clamp.set_value(clamp_state); // retracted (unclamped)
+// Work In Progress ----------------------------
+// void bottom_blue_possibly() {
+//   // Set-up: piston to ADI port clamp_port
+//   bool clamp_state = false;
+//   pros::ADIDigitalOut clamp (clamp_portAUTON);
+//   clamp.set_value(clamp_state); // retracted (unclamped)
 
-  // Begin movement
-  move_drive_wait(-20, DRIVE_SPEED);
-  clamp.set_value(!clamp_state); // clamps down on bottom left mogol
+//   // Begin movement
+//   move_drive_wait(-27, DRIVE_SPEED);
+//   clamp.set_value(!clamp_state); // clamps down on bottom left mogol
+//   wait(500);
 
-  // turn intake towards stacked rings (target is bottom blue)
-  turn_drive_wait(90, TURN_SPEED);
-  move_drive_wait(20, DRIVE_SPEED);
+//   // turn intake towards stacked rings (target is bottom red)
+//   turn_drive_wait(-110, -TURN_SPEED);
+//   move_drive_wait(10, DRIVE_SPEED);
+//   // intaker_wait(INTAKE_SPEED, 1800);
+//   intaker(400);
+//   move_drive_wait(15, DRIVE_SPEED);
 
-  // intake and turn + move to touch Ladder
-  intaker_wait(INTAKE_SPEED, 2200);
-  turn_drive_wait(195, TURN_SPEED);
-  move_drive_wait(30, DRIVE_SPEED);
-  
-}
+//   // intake and turn + move to touch Ladder
+//   turn_drive_wait(-252, -TURN_SPEED);
+//   move_drive_wait(30, DRIVE_SPEED-40);
+//   intaker(0);
 
+//   clamp.set_value(clamp_state);
+// }
+//----------------------------------------
+
+
+
+// Path 3: Red, 2 donuts and touches Ladder.
 void mid_red_line_rush(){
   bool clamp_state = false;
   pros::ADIDigitalOut clamp (clamp_portAUTON);
@@ -121,5 +132,114 @@ void mid_red_line_rush(){
   move_drive_wait(20, DRIVE_SPEED);
 }
 
+// Path 4: bottom blue simple
+void bottom_blue_simple() {
+  // Set-up: piston to ADI port clamp_port
+  bool clamp_state = false;
+  pros::ADIDigitalOut clamp (clamp_portAUTON);
+  clamp.set_value(clamp_state); // retracted (unclamped)
+  wait(1000);
+  // Begin movement
+  move_drive_wait(-29, DRIVE_SPEED);
+  clamp.set_value(!clamp_state); // clamps down on bottom left mogol
+
+  // turn intake towards stacked rings (target is bottom blue)
+  turn_drive_wait(110, TURN_SPEED);
+  intaker(400);
+  move_drive_wait(20, DRIVE_SPEED);
+
+  // intake and turn + move to touch Ladder
+  turn_drive_wait(250, TURN_SPEED);
+  move_drive_wait(30, DRIVE_SPEED);
+  wait(1000);
+  clamp.set_value(clamp_state);
+  intaker(0);
+  
+}
 
 
+
+//------------------ SKILLS ---------------------
+void skills(){
+  bool clamp_state = false;
+  pros::ADIDigitalOut clamp (clamp_portAUTON);
+  clamp.set_value(clamp_state); // retracted (unclamped)
+
+  //red
+  turn_drive_wait(-45, TURN_SPEED);
+  move_drive_wait(-10, DRIVE_SPEED);
+  clamp.set_value(!clamp_state); //get mogol
+
+  intaker(INTAKE_SPEED);
+  move_drive_wait(20, DRIVE_SPEED);
+  intaker(0); //score 2 rings
+  turn_drive_wait(-90, TURN_SPEED);
+  intaker(INTAKE_SPEED);
+  move_drive_wait(5, DRIVE_SPEED);
+  intaker(0); // 1 ring
+  turn_drive_wait(-180, TURN_SPEED);
+  intaker(INTAKE_SPEED);
+  move_drive_wait(5, DRIVE_SPEED);
+  intaker(0); // i ring
+  turn_drive_wait(-90, TURN_SPEED);
+  intaker(INTAKE_SPEED);
+  move_drive_wait(20, DRIVE_SPEED);
+  intaker(0); // 1 ring
+  turn_drive_wait(-210, TURN_SPEED);
+  intaker(INTAKE_SPEED);
+  move_drive_wait(24, DRIVE_SPEED);
+  intaker(0); // 1 ring
+  clamp.set_value(clamp_state); 
+
+  //orange
+  // turn_drive_wait(-135, TURN_SPEED);
+  // move_drive_wait(50, DRIVE_SPEED);
+  // intaker_wait(INTAKE_SPEED, 1000);
+  // turn_drive_wait(-315, TURN_SPEED);
+  // move_drive_wait(50, DRIVE_SPEED);
+  // intaker_wait(INTAKE_SPEED, 1000); //2 rings on the robot
+  // turn_drive_wait(-180, TURN_SPEED);
+  // move_drive_wait(50, DRIVE_SPEED);
+  // clamp.set_value(!clamp_state); //get mogol
+  // intaker_wait(INTAKE_SPEED, 1200); //score the 2 rings on the robot
+  // turn_drive_wait(-270, TURN_SPEED);
+  // move_drive_wait(20, DRIVE_SPEED); 
+  // intaker_wait(INTAKE_SPEED, 2200); //3 rings scored
+  // turn_drive_wait(0, TURN_SPEED);
+  // move_drive_wait(5, DRIVE_SPEED);
+  // intaker_wait(INTAKE_SPEED, 2200); //4 rings scored
+  // turn_drive_wait(-225, TURN_SPEED);
+  // move_drive_wait(10, DRIVE_SPEED); 
+  // intaker_wait(INTAKE_SPEED, 2200); //5 rings scored
+  // turn_drive_wait(-135, TURN_SPEED);
+  // move_drive_wait(50, DRIVE_SPEED);
+  // intaker_wait(INTAKE_SPEED, 2200); //6 rings scored
+  // clamp.set_value(clamp_state); 
+
+  //yellow
+  // turn_drive_wait(-225, TURN_SPEED);
+  // move_drive_wait(30, DRIVE_SPEED);
+  // intaker_wait(INTAKE_SPEED, 1000); 
+  // turn_drive_wait(-135, TURN_SPEED); 
+  // move_drive_wait(30, DRIVE_SPEED);
+  // intaker_wait(INTAKE_SPEED, 1000); //2 rings stored
+  // turn_drive_wait(80, TURN_SPEED);
+  // move_drive_wait(60, DRIVE_SPEED);
+  // clamp.set_value(!clamp_state); //get mogol
+  // intaker_wait(INTAKE_SPEED, 1200); //score 2 rings
+  // turn_drive_wait(70, TURN_SPEED);
+  // move_drive_wait(20, DRIVE_SPEED);
+  // intaker_wait(INTAKE_SPEED, 2200); //3 rings scored
+  // turn_drive_wait(-100, TURN_SPEED);
+  // move_drive_wait(40, DRIVE_SPEED);
+  // turn_drive_wait(-45, TURN_SPEED);
+  // move_drive_wait(40, DRIVE_SPEED);
+  // intaker_wait(INTAKE_SPEED, 2200); //4 rings scored
+  // turn_drive_wait(-90, TURN_SPEED);
+  // move_drive_wait(30, DRIVE_SPEED);
+  // intaker_wait(INTAKE_SPEED, 2200); //5 rings scored
+  // turn_drive_wait(-45, TURN_SPEED);
+  // move_drive_wait(40, DRIVE_SPEED);
+  // intaker_wait(INTAKE_SPEED, 2200); //6 rings scored
+  // clamp.set_value(clamp_state); 
+}

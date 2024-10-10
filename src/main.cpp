@@ -1,12 +1,13 @@
 #include "main.h"
 #include "EZ-Template/util.hpp"
 #include "pros/motors.h"
+#include "skills_auton.hpp"
 Drive chassis (
   // Left Chassis Ports (negative port will reverse it)
   {-18,-20,-9}
 
   // Right Chassis Ports
-  ,{19,2,1}
+  ,{19,2,3} // 5 replaced port 1
 
   // IMU Port
   ,7
@@ -84,7 +85,7 @@ void autonomous() {
   	//ez::as::auton_selector.call_selected_auton(); // Calls selected auton from autonomous selector.
 
 
-  bottom_red_simple();
+  bottom_blue_simple();
 }
 
 /**
@@ -98,6 +99,7 @@ void opcontrol() {
     chassis.set_drive_brake(pros::E_MOTOR_BRAKE_COAST);
     pros::Task intakeT(intakes);
     pros::Task clampT(clamps);
+    pros::Task wall_scoreT(wall_score);
 
     while (true) {
         chassis.arcade_standard(ez::SPLIT);

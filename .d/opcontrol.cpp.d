@@ -1,4 +1,4 @@
-bin/opcontrol.cpp.o: src/opcontrol.cpp include/helper_functions.hpp \
+bin/opcontrol.cpp.o: src/opcontrol.cpp include/EZ-Template/util.hpp \
  include/api.h include/pros/adi.h include/pros/colors.h \
  include/pros/distance.h include/pros/error.h include/pros/ext_adi.h \
  include/pros/adi.h include/pros/adi.h include/pros/gps.h \
@@ -76,12 +76,12 @@ bin/opcontrol.cpp.o: src/opcontrol.cpp include/helper_functions.hpp \
  include/pros/rotation.hpp include/pros/rotation.h include/pros/rtos.hpp \
  include/pros/screen.hpp include/pros/screen.h include/pros/vision.hpp \
  include/pros/vision.h include/pros/link.hpp include/pros/link.h \
- include/main.h include/EZ-Template/api.hpp include/EZ-Template/PID.hpp \
- include/EZ-Template/util.hpp include/api.h include/EZ-Template/auton.hpp \
- include/EZ-Template/auton_selector.hpp \
+ include/helper_functions.hpp include/api.h include/main.h \
+ include/EZ-Template/api.hpp include/EZ-Template/PID.hpp \
+ include/EZ-Template/auton.hpp include/EZ-Template/auton_selector.hpp \
  include/EZ-Template/drive/drive.hpp include/EZ-Template/sdcard.hpp \
  include/config.hpp include/skills_auton.hpp include/opcontrol.hpp
-include/helper_functions.hpp:
+include/EZ-Template/util.hpp:
 include/api.h:
 include/pros/adi.h:
 include/pros/colors.h:
@@ -234,11 +234,11 @@ include/pros/vision.hpp:
 include/pros/vision.h:
 include/pros/link.hpp:
 include/pros/link.h:
+include/helper_functions.hpp:
+include/api.h:
 include/main.h:
 include/EZ-Template/api.hpp:
 include/EZ-Template/PID.hpp:
-include/EZ-Template/util.hpp:
-include/api.h:
 include/EZ-Template/auton.hpp:
 include/EZ-Template/auton_selector.hpp:
 include/EZ-Template/drive/drive.hpp:

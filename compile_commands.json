@@ -33,11 +33,11 @@
             "-funwind-tables",
             "--std=gnu++17",
             "-o",
-            "bin/helper_functions.cpp.o",
-            "src\\helper_functions.cpp"
+            "bin/skills_auton.cpp.o",
+            "src\\skills_auton.cpp"
         ],
         "directory": "C:\\Users\\doanb\\OneDrive\\Desktop\\Skills Auton\\Skills Auton",
-        "file": "src\\helper_functions.cpp"
+        "file": "src\\skills_auton.cpp"
     },
     {
         "arguments": [
@@ -113,11 +113,11 @@
             "-funwind-tables",
             "--std=gnu++17",
             "-o",
-            "bin/config.cpp.o",
-            "src\\config.cpp"
+            "bin/helper_functions.cpp.o",
+            "src\\helper_functions.cpp"
         ],
         "directory": "C:\\Users\\doanb\\OneDrive\\Desktop\\Skills Auton\\Skills Auton",
-        "file": "src\\config.cpp"
+        "file": "src\\helper_functions.cpp"
     },
     {
         "arguments": [
@@ -193,10 +193,10 @@
             "-funwind-tables",
             "--std=gnu++17",
             "-o",
-            "bin/skills_auton.cpp.o",
-            "src\\skills_auton.cpp"
+            "bin/config.cpp.o",
+            "src\\config.cpp"
         ],
         "directory": "C:\\Users\\doanb\\OneDrive\\Desktop\\Skills Auton\\Skills Auton",
-        "file": "src\\skills_auton.cpp"
+        "file": "src\\config.cpp"
     }
 ]
