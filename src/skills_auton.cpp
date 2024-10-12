@@ -53,7 +53,7 @@ void tune_PID(){
   //swing turn left
   //go straight for a while to check heading
 }                                                                                                                                                                                                                                                                                                                                                                                                               
-//---------------------------------------------------------------------- Authons YR 2024-2025
+//---------------------------------------------------------------------- Autons YR 2024-2025
 // Path 2 (Simple): Red, 2 donuts and touches
 void bottom_red_simple() {
   // Set-up: piston to ADI port clamp_port

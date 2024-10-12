@@ -10,12 +10,11 @@
 const int vel = 600;
 const int arm_vel = 400;
 
-bool arm_down = true;
-bool arm_set = false;
-bool clamp_state = true;
+bool clamp_state = false;
 char clamp_portOP = 'G';
 
-
+bool arm_down = true;
+bool arm_set = false;
 
 
 
@@ -23,11 +22,9 @@ void intakes() {
     while (true) {
         if (master.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
             intaker(vel);
-        }
-        else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
+        } else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
             intaker(-vel);
-        }
-        else {
+        } else {
             intaker(0);
         }
     }
@@ -55,9 +52,8 @@ void wall_score() {
     while (true) {
         if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L1) && arm_down) {
             arm.move_velocity(-arm_vel);
-            wait(700);
+            wait(600);
             arm.move_velocity(0);
-            // arm.move_absolute(75, arm_vel);
             arm_down = !arm_down;
             arm_set = true;
         }
