@@ -6,25 +6,29 @@
         "${workspaceFolder}/**",
         "c:\\Users\\doanb\\OneDrive\\Desktop\\States Skills Auton\\Skills Auton\\include",
         "c:\\Users\\doanb\\OneDrive\\Desktop\\Real_Worlds\\Skills Auton\\include",
-        "c:\\Users\\doanb\\OneDrive\\Desktop\\Skills Auton\\Skills Auton\\include"
+        "c:\\Users\\doanb\\OneDrive\\Desktop\\Skills Auton\\Skills Auton\\include",
+        "/Users/lucas/Documents/vscodestuff/675E2024LowExpectations/675E_Low-Expectations/include"
       ],
       "defines": [
         "_DEBUG",
         "UNICODE",
         "_UNICODE"
       ],
-      "compilerPath": "c:\\Users\\doanb\\AppData\\Roaming\\Code\\User\\globalStorage\\sigbots.pros\\install\\pros-toolchain-windows\\usr\\bin\\arm-none-eabi-g++",
+      "compilerPath": "/Users/lucas/Library/Application Support/Code/User/globalStorage/sigbots.pros/install/pros-toolchain-macos/bin/arm-none-eabi-g++",
       "cStandard": "gnu11",
       "cppStandard": "gnu++20",
       "intelliSenseMode": "gcc-arm",
       "compileCommands": "c:\\Users\\doanb\\OneDrive\\Desktop\\States Skills Auton\\Skills Auton\\compile_commands.json",
       "browse": {
         "path": [
-          "c:\\Users\\doanb\\OneDrive\\Desktop\\Skills Auton\\Skills Auton"
+          "/Users/lucas/Documents/vscodestuff/675E2024LowExpectations/675E_Low-Expectations"
         ],
         "limitSymbolsToIncludedHeaders": true,
         "databaseFilename": ""
-      }
+      },
+      "macFrameworkPath": [
+        "/System/Library/Frameworks"
+      ]
     }
   ],
   "version": 4

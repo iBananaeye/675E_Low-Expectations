@@ -1,7 +1,7 @@
 {
   "py/object": "pros.conductor.project.Project",
   "py/state": {
-    "project_name": "pandora_v1",
+    "project_name": "pleasework",
     "target": "v5",
     "templates": {
       "EZ-Template": {
@@ -331,7 +331,7 @@
       }
     },
     "upload_options": {
-      "slot": 3,
+      "slot": 5,
       "icon": "planet",
       "after": "screen",
       "description": "sept. bot"
