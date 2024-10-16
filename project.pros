@@ -1,7 +1,7 @@
 {
   "py/object": "pros.conductor.project.Project",
   "py/state": {
-    "project_name": "pandora_v1",
+    "project_name": "topBlue",
     "target": "v5",
     "templates": {
       "EZ-Template": {
@@ -334,7 +334,7 @@
       "slot": 3,
       "icon": "planet",
       "after": "screen",
-      "description": "sept. bot"
+      "description": "blue top"
     }
   }
 }

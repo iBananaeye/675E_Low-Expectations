@@ -204,7 +204,7 @@ void bottom_blue_simple() {
 
   // intake and turn + move to touch Ladder
   turn_drive_wait(250, TURN_SPEED);
-  move_drive_wait(30, DRIVE_SPEED);
+  move_drive_wait(27, DRIVE_SPEED);
   wait(1000);
   clamp.set_value(clamp_state);
   intaker(0);
@@ -243,6 +243,7 @@ void top_blue_simple() {
 
 
 //------------------ SKILLS ---------------------
+// Path 2
 void skills(){
   bool clamp_state = false;
   pros::ADIDigitalOut clamp (clamp_portAUTON);
