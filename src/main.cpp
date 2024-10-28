@@ -99,6 +99,8 @@ void opcontrol() {
     pros::Task intakeT(intakes);
     pros::Task clampT(clamps);
     pros::Task wall_scoreT(wall_score);
+    pros::Task sorterT(sorter);
+    pros::Task doinkerT(doinker);
     
     pros::Task debugTurnT(debugTurn);
     // pros::Task debugDriveT(debugDrive);

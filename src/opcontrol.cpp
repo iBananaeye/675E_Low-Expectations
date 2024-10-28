@@ -6,6 +6,9 @@
 #include "pros/motors.h"
 //using namespace pros = no need to retype pros:: everytime
 
+#define ON 1
+#define OFF 0
+
 // local variable defined
 const int vel = 600;
 const int arm_vel = 400; 
@@ -13,24 +16,26 @@ const int arm_vel = 400;
 bool clamp_state = false;
 char clamp_portOP = 'G';
 
-bool arm_down = true;
-bool arm_set = false;
+int imu_port = 7;
 
+char sorter_portOP = 'A'; //fix
+int color_port = 1; //fix
+
+char doinker_portOP = 'B'; //fix
 
 
 void intakes() {
     while (true) {
         if (master.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
-            intaker(-vel);
+            intaker(vel); //Intakes
         } else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
-            intaker(vel);
+            intaker(-vel); //Outakes
         } else {
             intaker(0);
         }
     }
     pros::delay(ez::util::DELAY_TIME); 
 }
-
 
 void clamps() {
     pros::ADIDigitalOut clamp (clamp_portOP); // port ^^^
@@ -49,38 +54,38 @@ void clamps() {
 void wall_score() {
     arm.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
     //Negative is up, 1200 is about a 90 degree motion of the arm
-    const int DOWN_POSITION = -15; //Not 0 to make sure the motors don't fry themselves tryna go through metal
+    const int DOWN_POSITION = -15; //Not 0 to make sure the motors don't fry themselves going through metal
     const int LOAD_POSITION = -235;
     const int SCORE_POSITION = -2000; 
     arm.pros::Motor::tare_position();
 
-    int armPosiion = DOWN_POSITION;
+    int armPosition = DOWN_POSITION;
     while (true) 
     {
         if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L1) )
         {
-            if(armPosiion == DOWN_POSITION)
+            if(armPosition == DOWN_POSITION)
             {
-                armPosiion = LOAD_POSITION;
+                armPosition = LOAD_POSITION;
                 arm.move_absolute(LOAD_POSITION, arm_vel);
             }
             else
             {
-                armPosiion = DOWN_POSITION;
+                armPosition = DOWN_POSITION;
                 arm.move_absolute(DOWN_POSITION, arm_vel);
             }
             wait(250);
         }
         else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L2))
         {
-            if(armPosiion == LOAD_POSITION)
+            if(armPosition == LOAD_POSITION)
             {
-                armPosiion = SCORE_POSITION;
+                armPosition = SCORE_POSITION;
                 arm.move_absolute(SCORE_POSITION, arm_vel);
             }
-            else if(armPosiion == SCORE_POSITION)
+            else if(armPosition == SCORE_POSITION)
             {
-                armPosiion = LOAD_POSITION;
+                armPosition = LOAD_POSITION;
                 arm.move_absolute(LOAD_POSITION, arm_vel);
             }
             wait(300);
@@ -89,10 +94,77 @@ void wall_score() {
     pros::delay(ez::util::DELAY_TIME);
 }
 
+int TEAM = 0; //Someone remind me to fix this, idk where to declare team color, and this code kinda ugly ngl
+
+void sorter()
+{
+    pros::ADIDigitalOut sorter(sorter_portOP);
+    pros::Optical light(color_port);
+    pros::c::optical_rgb_s_t rgbVal;
+    enum{RED, BLUE};
+    double blueThreshold = 10;
+    double redThreshold = 10;
+    int color = TEAM;
+    bool manual = false;
+    bool sorterState = false;
+
+    sorter.set_value(OFF);
+    while(true)
+    {
+        rgbVal = light.get_rgb();
+        if(rgbVal.blue > blueThreshold) {color = BLUE;}
+        else if(rgbVal.red > redThreshold) {color = RED;}
+
+        if(master.get_digital(pros::E_CONTROLLER_DIGITAL_B))
+        {
+            manual = !manual;
+        }
+        if(!manual)
+        {
+            switch (color == TEAM)
+            {
+                case true:
+                    sorter.set_value(OFF);
+                    sorterState = OFF;
+                    break;
+                case false:
+                    sorter.set_value(ON);
+                    sorterState = ON;
+                    break;
+            }
+        }
+        else
+        {
+            if(master.get_digital(pros::E_CONTROLLER_DIGITAL_X))
+            {
+                sorter.set_value(!sorterState);
+            }
+        }
+        master.print(2,0,"Sorter: %s", manual ? "Manual" : "Automatic");
+        wait(200);
+    }
+}
+
+void doinker()
+{
+    pros::ADIDigitalOut doinker(doinker_portOP);
+    bool doinkerState = OFF;
+    doinker.set_value(OFF);
+    while(true)
+    {
+        if(master.get_digital(pros::E_CONTROLLER_DIGITAL_Y))
+        {
+            doinker.set_value(!doinkerState);
+            wait(300);
+        }
+        wait(200);
+    }
+}
+
 void debugTurn() //help find turn angles
 {
     master.clear();
-    pros::Imu imu(7);
+    pros::Imu imu(imu_port);
     while(true)
     {
         if(master.get_digital(pros::E_CONTROLLER_DIGITAL_LEFT))
