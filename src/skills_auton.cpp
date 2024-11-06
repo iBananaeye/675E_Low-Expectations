@@ -256,7 +256,7 @@ void skills(){
 
   intaker(INTAKE_SPEED);
   move_drive_wait(20, DRIVE_SPEED);
-  intaker(0); //score 2 rings
+  intaker(0); //scores 1 ring
   turn_drive_wait(-90, TURN_SPEED);
   intaker(INTAKE_SPEED);
   move_drive_wait(5, DRIVE_SPEED);
@@ -264,16 +264,21 @@ void skills(){
   turn_drive_wait(-180, TURN_SPEED);
   intaker(INTAKE_SPEED);
   move_drive_wait(5, DRIVE_SPEED);
-  intaker(0); // i ring
+  intaker(0); // 1 ring
   turn_drive_wait(-90, TURN_SPEED);
   intaker(INTAKE_SPEED);
-  move_drive_wait(20, DRIVE_SPEED);
+  move_drive_wait(13, DRIVE_SPEED);
   intaker(0); // 1 ring
   turn_drive_wait(-210, TURN_SPEED);
   intaker(INTAKE_SPEED);
-  move_drive_wait(24, DRIVE_SPEED);
+  move_drive_wait(25, DRIVE_SPEED);
   intaker(0); // 1 ring
-  clamp.set_value(clamp_state); 
+  turn_drive_wait(-150,TURN_SPEED);
+  move_drive_wait(26, DRIVE_SPEED);
+
+  clamp.set_value(clamp_state);
+
+
 
   //orange
   // turn_drive_wait(-135, TURN_SPEED);
