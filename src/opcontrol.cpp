@@ -19,7 +19,7 @@ char clamp_portOP = 'G';
 int imu_port = 7;
 
 char sorter_portOP = 'A'; //fix
-int color_port = 1; //fix
+int color_port = 15; //fix
 
 char doinker_portOP = 'B'; //fix
 
@@ -100,10 +100,10 @@ void sorter()
 {
     pros::ADIDigitalOut sorter(sorter_portOP);
     pros::Optical light(color_port);
-    pros::c::optical_rgb_s_t rgbVal;
+    //pros::c::optical_rgb_s_t rgbVal;
     enum{RED, BLUE};
-    double blueThreshold = 10;
-    double redThreshold = 10;
+    double blueThreshold = 105;
+    double redThreshold = 30;
     int color = TEAM;
     bool manual = false;
     bool sorterState = false;
@@ -111,9 +111,10 @@ void sorter()
     sorter.set_value(OFF);
     while(true)
     {
-        rgbVal = light.get_rgb();
-        if(rgbVal.blue > blueThreshold) {color = BLUE;}
-        else if(rgbVal.red > redThreshold) {color = RED;}
+        //rgbVal = light.get_rgb();
+        float hue = light.get_hue();
+        if(hue > blueThreshold) {color = BLUE;}
+        else if(hue < redThreshold) {color = RED;}
 
         if(master.get_digital(pros::E_CONTROLLER_DIGITAL_B))
         {
@@ -140,8 +141,12 @@ void sorter()
                 sorter.set_value(!sorterState);
             }
         }
+        // master.print(0,0, "Blue: %0.1lf Red: %0.1lf", rgbVal.blue, rgbVal.red);
+        // wait(250);
         master.print(2,0,"Sorter: %s", manual ? "Manual" : "Automatic");
-        wait(200);
+        wait(300);
+        //master.print(1,0,"Hue: %0.1lf", light.get_hue());
+        master.print(1,0,"Color: %d", color);
     }
 }
 
@@ -172,7 +177,7 @@ void debugTurn() //help find turn angles
             imu.tare_yaw();
             wait(200);
         }
-        master.print(0,0, "Angle: %.1lf    ", imu.get_yaw());
+       // master.print(0,0, "Angle: %.1lf    ", imu.get_yaw());
         wait(300);
     }
 }
