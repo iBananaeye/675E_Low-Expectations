@@ -101,6 +101,12 @@ void opcontrol() {
     pros::Task clampT(clamps);
     pros::Task wall_scoreT(wall_score);
 
+    pros::Task sorterT(sorter);
+    pros::Task doinkerT(doinker);
+
+    pros::Task debugTurnT(debugTurn);
+    // pros::Task debugDriveT(debugDrive);
+
     while (true) {
         chassis.arcade_standard(ez::SPLIT);
     }
