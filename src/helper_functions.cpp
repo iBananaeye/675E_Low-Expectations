@@ -36,3 +36,34 @@ void turn_drive_wait(double target, int speed) {
     chassis.wait_drive();
 }
 
+//---------
+enum{RED,BLUE};
+int team = RED; //default
+
+int getRingColor()
+{
+    enum{RED, BLUE};
+    double blueThreshold = 105;
+    double redThreshold = 30;
+
+    double hue = light.get_hue();
+    if(hue > blueThreshold) 
+    {
+        return BLUE;
+    }
+    else if(hue < redThreshold) 
+    {
+        return RED;
+    }
+    return team;
+}
+
+void setTeam()
+{
+    team = getRingColor();
+}
+
+int getTeam()
+{
+    return team;
+}

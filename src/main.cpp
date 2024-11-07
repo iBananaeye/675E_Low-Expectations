@@ -4,13 +4,21 @@
 #include "skills_auton.hpp"
 Drive chassis (
   // Left Chassis Ports (negative port will reverse it)
-  {-18,-20,-9}
+  {
+    Port::LEFT_FARBACK_WHEEL_PORT,
+    Port::LEFT_MIDDLE_WHEEL_PORT,
+    Port::LEFT_FRONT_WHEEL_PORT
+  }
 
   // Right Chassis Ports
-  ,{19,2,3} // 5 replaced port 1
+  ,{
+    Port::RIGHT_FARBACK_WHEEL_PORT,
+    Port::RIGHT_MIDDLE_WHEEL_PORT,
+    Port::RIGHT_FRONT_WHEEL_PORT
+  }
 
   // IMU Port
-  ,7
+  ,Port::IMU_PORT
 
   // Wheel Diameter (Remember, 4" wheels are actually 4.125!)
   //    (or tracking wheel diameter)
@@ -102,8 +110,8 @@ void opcontrol() {
     pros::Task sorterT(sorter);
     pros::Task doinkerT(doinker);
     
-    pros::Task debugTurnT(debugTurn);
-    // pros::Task debugDriveT(debugDrive);
+    //pros::Task debugTurnT(debugTurn);
+    //pros::Task debugDriveT(debugDrive);
 
     while (true) {
         chassis.arcade_standard(ez::SPLIT);

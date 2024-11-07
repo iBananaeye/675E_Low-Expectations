@@ -6,23 +6,14 @@
 #include "pros/motors.h"
 //using namespace pros = no need to retype pros:: everytime
 
-#define ON 1
-#define OFF 0
+const int ON = 1;
+const int OFF = 0;
 
 // local variable defined
 const int vel = 600;
 const int arm_vel = 400; 
 
 bool clamp_state = false;
-char clamp_portOP = 'G';
-
-int imu_port = 7;
-
-char sorter_portOP = 'A'; //fix
-int color_port = 15; //fix
-
-char doinker_portOP = 'B'; //fix
-
 
 void intakes() {
     while (true) {
@@ -38,7 +29,7 @@ void intakes() {
 }
 
 void clamps() {
-    pros::ADIDigitalOut clamp (clamp_portOP); // port ^^^
+    pros::ADIDigitalOut clamp (Port::CLAMP_PORT); // port in config.hpp
     clamp.set_value(clamp_state); // retracted
 
     while (true) {
@@ -94,35 +85,27 @@ void wall_score() {
     pros::delay(ez::util::DELAY_TIME);
 }
 
-int TEAM = 0; //Someone remind me to fix this, idk where to declare team color, and this code kinda ugly ngl
-
 void sorter()
 {
-    pros::ADIDigitalOut sorter(sorter_portOP);
-    pros::Optical light(color_port);
-    //pros::c::optical_rgb_s_t rgbVal;
+    pros::ADIDigitalOut sorter(Port::SORTER_PORT);
     enum{RED, BLUE};
-    double blueThreshold = 105;
-    double redThreshold = 30;
-    int color = TEAM;
+    int team = getTeam(); // default
+    int color = team;
     bool manual = false;
     bool sorterState = false;
 
     sorter.set_value(OFF);
     while(true)
     {
-        //rgbVal = light.get_rgb();
-        float hue = light.get_hue();
-        if(hue > blueThreshold) {color = BLUE;}
-        else if(hue < redThreshold) {color = RED;}
-
+        color = getRingColor();
         if(master.get_digital(pros::E_CONTROLLER_DIGITAL_B))
         {
             manual = !manual;
+            sorter.set_value(OFF);
         }
         if(!manual)
         {
-            switch (color == TEAM)
+            switch (color == team)
             {
                 case true:
                     sorter.set_value(OFF);
@@ -141,18 +124,18 @@ void sorter()
                 sorter.set_value(!sorterState);
             }
         }
-        // master.print(0,0, "Blue: %0.1lf Red: %0.1lf", rgbVal.blue, rgbVal.red);
-        // wait(250);
-        master.print(2,0,"Sorter: %s", manual ? "Manual" : "Automatic");
-        wait(300);
-        //master.print(1,0,"Hue: %0.1lf", light.get_hue());
-        master.print(1,0,"Color: %d", color);
+        master.print(0,0,"T%s Sort: %s %s", 
+            team == RED ? "R" : "B" ,  
+            manual ? "Manu" : "Auto", 
+            color == RED ? "Red" : "Blue"
+        ); //Prints 'T[Alliance Color Initial] Sort: [Whether in auto or manual mode] [Last seen color]'
+        wait(250);
     }
 }
 
 void doinker()
 {
-    pros::ADIDigitalOut doinker(doinker_portOP);
+    pros::ADIDigitalOut doinker(Port::DOINKER_PORT);
     bool doinkerState = OFF;
     doinker.set_value(OFF);
     while(true)
@@ -160,16 +143,14 @@ void doinker()
         if(master.get_digital(pros::E_CONTROLLER_DIGITAL_Y))
         {
             doinker.set_value(!doinkerState);
-            wait(300);
+            wait(200);
         }
-        wait(200);
     }
 }
 
 void debugTurn() //help find turn angles
 {
     master.clear();
-    pros::Imu imu(imu_port);
     while(true)
     {
         if(master.get_digital(pros::E_CONTROLLER_DIGITAL_LEFT))
@@ -177,13 +158,13 @@ void debugTurn() //help find turn angles
             imu.tare_yaw();
             wait(200);
         }
-       // master.print(0,0, "Angle: %.1lf    ", imu.get_yaw());
+        master.print(1,0, "Angle: %.1lf    ", imu.get_yaw());
         wait(300);
     }
 }
 
 int inches = 0;
-void debugDrive()
+void debugDrive() //Lets you move a certain amount from controller input, not used anywhere 
 {
     chassis.set_drive_brake(pros::E_MOTOR_BRAKE_BRAKE);
     master.clear();

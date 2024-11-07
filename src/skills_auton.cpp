@@ -9,7 +9,7 @@ const int DRIVE_SPEED = 110; // This is 110/127 (around 87% of max speed). When 
 const int TURN_SPEED = 65;
 const int SWING_SPEED = 90;
 const int INTAKE_SPEED = 550;
-char clamp_portAUTON = 'G';
+pros::ADIDigitalOut clamp(Port::CLAMP_PORT);
 
 void default_constants() //TUNE PID BASED OFF COMMENTS MADE BELOW
 {
@@ -58,7 +58,7 @@ void tune_PID(){
 void bottom_red_simple() {
   // Set-up: piston to ADI port clamp_port
   bool clamp_state = false;
-  pros::ADIDigitalOut clamp (clamp_portAUTON);
+  pros::ADIDigitalOut clamp (Port::CLAMP_PORT);
   clamp.set_value(clamp_state); // retracted (unclamped)
 
   // Begin movement
@@ -86,7 +86,7 @@ void bottom_red_simple() {
 void bottom_red_hard() {
   // Set-up: piston to ADI port clamp_port
   bool clamp_state = false;
-  pros::ADIDigitalOut clamp (clamp_portAUTON);
+  pros::ADIDigitalOut clamp (Port::CLAMP_PORT);
   clamp.set_value(clamp_state); // retracted (unclamped)
 
   // Begin movement
@@ -112,7 +112,7 @@ void bottom_red_hard() {
 void top_red_simple() {
 // Set-up: piston to ADI port clamp_port
   bool clamp_state = false;
-  pros::ADIDigitalOut clamp (clamp_portAUTON);
+  pros::ADIDigitalOut clamp (Port::CLAMP_PORT);
   clamp.set_value(clamp_state); // retracted (unclamped)
   wait(1000);
   // Begin movement
@@ -139,7 +139,7 @@ void top_red_simple() {
 // void bottom_blue_possibly() {
 //   // Set-up: piston to ADI port clamp_port
 //   bool clamp_state = false;
-//   pros::ADIDigitalOut clamp (clamp_portAUTON);
+//   pros::ADIDigitalOut clamp (Port::CLAMP_PORT);
 //   clamp.set_value(clamp_state); // retracted (unclamped)
 
 //   // Begin movement
@@ -168,7 +168,7 @@ void top_red_simple() {
 // Path 3: Red, 2 donuts and touches Ladder.
 void mid_red_line_rush(){
   bool clamp_state = false;
-  pros::ADIDigitalOut clamp (clamp_portAUTON);
+  pros::ADIDigitalOut clamp (Port::CLAMP_PORT);
   clamp.set_value(clamp_state); // retracted (unclamped)
 
   //turn and get midline mogol 
@@ -190,7 +190,7 @@ void mid_red_line_rush(){
 void bottom_blue_simple() {
   // Set-up: piston to ADI port clamp_port
   bool clamp_state = false;
-  pros::ADIDigitalOut clamp (clamp_portAUTON);
+  pros::ADIDigitalOut clamp (Port::CLAMP_PORT);
   clamp.set_value(clamp_state); // retracted (unclamped)
   wait(1000);
   // Begin movement
@@ -214,7 +214,7 @@ void bottom_blue_simple() {
 void top_blue_simple() {
 // Set-up: piston to ADI port clamp_port
   bool clamp_state = false;
-  pros::ADIDigitalOut clamp (clamp_portAUTON);
+  pros::ADIDigitalOut clamp (Port::CLAMP_PORT);
   clamp.set_value(clamp_state); // retracted (unclamped)
 
   // Begin movement
@@ -245,7 +245,7 @@ void top_blue_simple() {
 //------------------ SKILLS ---------------------
 void skills(){
   bool clamp_state = false;
-  pros::ADIDigitalOut clamp (clamp_portAUTON);
+  pros::ADIDigitalOut clamp (Port::CLAMP_PORT);
   clamp.set_value(clamp_state); // retracted (unclamped)
 
   //red
