@@ -4,10 +4,10 @@
 #include "skills_auton.hpp"
 Drive chassis (
   // Left Chassis Ports (negative port will reverse it)
-  {-18,-20,-9}
+  {-11,-6,-10}
 
   // Right Chassis Ports
-  ,{19,2,3} // 5 replaced port 1
+  ,{19,20,9} // 5 replaced port 1
 
   // IMU Port
   ,7

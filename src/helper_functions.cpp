@@ -2,9 +2,10 @@
 #include "pros/adi.h"
 #include "pros/misc.h"
 #include "pros/motors.h"
+#include "skills_auton.hpp"
 
 void intaker(double v) {
-    intake.move_velocity(-v);
+    intake.move_velocity(v);
     conveyor.move_velocity(v);
 }
 
@@ -33,6 +34,12 @@ void move_drive_wait(double target, int speed){
 
 void turn_drive_wait(double target, int speed) {
     chassis.set_turn_pid(target, speed);
+    chassis.wait_drive();
+}
+
+//----------
+void wide_turn_wait(double radius, double length, int speed) {
+    //
     chassis.wait_drive();
 }
 

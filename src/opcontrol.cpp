@@ -12,7 +12,7 @@ const int vel = 600;
 const int arm_vel = 400;
 
 bool clamp_state = false;
-char clamp_portOP = 'G';
+char clamp_portOP = 'B';
 
 int imu_port = 7;
 
@@ -133,7 +133,7 @@ void sorter()
         }
         else
         {
-            if(master.get_digital(pros::E_CONTROLLER_DIGITAL_X))
+            if (master.get_digital(pros::E_CONTROLLER_DIGITAL_X))
             {
                 sorter.set_value(!sorterState);
             }
