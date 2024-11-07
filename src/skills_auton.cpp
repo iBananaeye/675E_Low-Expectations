@@ -11,6 +11,14 @@ const int SWING_SPEED = 90;
 const int INTAKE_SPEED = 550;
 char clamp_portAUTON = 'G';
 
+int TEAM = 0; //Someone remind me to fix this, idk where to declare team color, and this code kinda ugly ngl
+int imu_port = 7;
+
+char sorter_portOP = 'A'; //fix
+int color_port = 1; //fix
+#define ON 1
+#define OFF 0
+
 void default_constants() //TUNE PID BASED OFF COMMENTS MADE BELOW
 {
   chassis.set_slew_min_power(80, 80);
@@ -52,7 +60,46 @@ void tune_PID(){
   //swing turn right
   //swing turn left
   //go straight for a while to check heading
-}                                                                                                                                                                                                                                                                                                                                                                                                               
+}                                                              
+
+int sorterSkill()
+{
+    pros::ADIDigitalOut sorter(sorter_portOP);
+    pros::Optical light(color_port);
+    pros::c::optical_rgb_s_t rgbVal;
+    enum{RED, BLUE};
+    double blueThreshold = 10;
+    double redThreshold = 10;
+    int color = TEAM;
+    bool sorterState = false;
+    bool found = 0;
+
+    sorter.set_value(OFF);
+
+
+    while (!found) {
+      rgbVal = light.get_rgb();
+      if(rgbVal.blue > blueThreshold) {color = BLUE;}
+      else if(rgbVal.red > redThreshold) {color = RED;}
+      
+      master.print(0,2,"Color: %s", color);
+      wait(150);
+
+      if (color == BLUE) {
+        return 1;
+      }
+      else if (color == RED) {
+        return 0;
+      }
+      else {
+        continue;
+      }
+    }
+}
+
+
+
+
 //---------------------------------------------------------------------- Autons YR 2024-2025
 // Path 2 (Simple): Red, 2 donuts and touches
 void bottom_red_simple() {

@@ -7,10 +7,10 @@ Drive chassis (
   {-11,-6,-10}
 
   // Right Chassis Ports
-  ,{19,20,9} // 5 replaced port 1
+  ,{19,20,7} // 5 replaced port 1
 
   // IMU Port
-  ,7
+  ,18
 
   // Wheel Diameter (Remember, 4" wheels are actually 4.125!)
   //    (or tracking wheel diameter)
@@ -101,7 +101,7 @@ void opcontrol() {
     pros::Task clampT(clamps);
     pros::Task wall_scoreT(wall_score);
 
-    pros::Task sorterT(sorter);
+    pros::Task sorterT(sorterOP);
     pros::Task doinkerT(doinker);
 
     pros::Task debugTurnT(debugTurn);

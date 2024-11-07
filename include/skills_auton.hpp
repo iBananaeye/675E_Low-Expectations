@@ -7,6 +7,8 @@ extern Drive chassis;
 
 void default_constants();
 void tune_PID();
+int sorterSkill();
+
 
 void bottom_red_simple();
 void bottom_red_hard();

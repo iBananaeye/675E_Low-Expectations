@@ -14,7 +14,7 @@ const int arm_vel = 400;
 bool clamp_state = false;
 char clamp_portOP = 'B';
 
-int imu_port = 7;
+int imu_port = 18;
 
 char sorter_portOP = 'A'; //fix
 int color_port = 1; //fix
@@ -94,7 +94,7 @@ void wall_score() {
 
 int TEAM = 0; //Someone remind me to fix this, idk where to declare team color, and this code kinda ugly ngl
 
-void sorter()
+void sorterOP()
 {
     pros::ADIDigitalOut sorter(sorter_portOP);
     pros::Optical light(color_port);

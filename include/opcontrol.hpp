@@ -6,7 +6,7 @@
 void intakes();
 void clamps();
 void wall_score();
-void sorter();
+void sorterOP();
 void doinker();
 
 void debugTurn();
