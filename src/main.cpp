@@ -104,6 +104,7 @@ void autonomous() {
 
 void opcontrol() {
     chassis.set_drive_brake(pros::E_MOTOR_BRAKE_COAST);
+    setTeam();
     pros::Task intakeT(intakes);
     pros::Task clampT(clamps);
     pros::Task wall_scoreT(wall_score);

@@ -44,10 +44,10 @@ void clamps() {
 
 void wall_score() {
     arm.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
-    //Negative is up, 1200 is about a 90 degree motion of the arm
-    const int DOWN_POSITION = -15; //Not 0 to make sure the motors don't fry themselves going through metal
-    const int LOAD_POSITION = -235;
-    const int SCORE_POSITION = -2000; 
+    //Negative is up
+    const int DOWN_POSITION = -20; //Not 0 to make sure the motors don't fry themselves going through metal
+    const int LOAD_POSITION = -318;
+    const int SCORE_POSITION = -1670; 
     arm.pros::Motor::tare_position();
 
     int armPosition = DOWN_POSITION;
@@ -81,6 +81,9 @@ void wall_score() {
             }
             wait(300);
         }
+        // Outputs encoder to screen to find wall stake positions
+        // master.print(0,0, "Pos: %.1lf", arm.get_position());
+        // wait(250);
     }
     pros::delay(ez::util::DELAY_TIME);
 }
@@ -89,7 +92,7 @@ void sorter()
 {
     pros::ADIDigitalOut sorter(Port::SORTER_PORT);
     enum{RED, BLUE};
-    int team = getTeam(); // default
+    int team = getTeam(); // defaults to red
     int color = team;
     bool manual = false;
     bool sorterState = false;
@@ -124,11 +127,12 @@ void sorter()
                 sorter.set_value(!sorterState);
             }
         }
-        master.print(0,0,"T%s Sort: %s %s", 
-            team == RED ? "R" : "B" ,  
-            manual ? "Manu" : "Auto", 
-            color == RED ? "Red" : "Blue"
-        ); //Prints 'T[Alliance Color Initial] Sort: [Whether in auto or manual mode] [Last seen color]'
+        master.print(0,0,"T%s-%s %s %.1lf", 
+            team == RED ? "R" : "B" ,
+            manual ? "Man" : "Aut", 
+            color == RED ? "R" : "B",
+            light.get_hue()
+        ); //Prints 'T[Alliance Color Initial]-[Whether in auto or manual mode] [Last seen color] [Hue value]'
         wait(250);
     }
 }
@@ -147,6 +151,11 @@ void doinker()
         }
     }
 }
+
+
+
+//ignore everything below here, i would comment it out but
+//I would need to comment stuff out across 3 files and that is no fun
 
 void debugTurn() //help find turn angles
 {

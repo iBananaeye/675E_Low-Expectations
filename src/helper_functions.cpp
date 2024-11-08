@@ -37,12 +37,11 @@ void turn_drive_wait(double target, int speed) {
 }
 
 //---------
-enum{RED,BLUE};
+enum{RED,BLUE, OTHER};
 int team = RED; //default
 
 int getRingColor()
 {
-    enum{RED, BLUE};
     double blueThreshold = 105;
     double redThreshold = 30;
 
@@ -55,12 +54,16 @@ int getRingColor()
     {
         return RED;
     }
-    return team;
+    return OTHER;
 }
 
 void setTeam()
 {
-    team = getRingColor();
+    int col = getRingColor();
+    if(col != OTHER)
+    {
+        team = col;
+    }
 }
 
 int getTeam()

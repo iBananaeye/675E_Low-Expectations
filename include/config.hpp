@@ -18,8 +18,8 @@
 enum Port
 {
     INTAKE_PORT = -2,
-    CONVEYOR_PORT = 8,
-    WALL_STAKE_PORT = 7,
+    CONVEYOR_PORT = 9,
+    WALL_STAKE_PORT = 8,
 
     COLOR_SENSOR_PORT = 15,
     IMU_PORT = 18,
@@ -30,11 +30,11 @@ enum Port
 
     RIGHT_FARBACK_WHEEL_PORT = 19,
     RIGHT_MIDDLE_WHEEL_PORT = 20,
-    RIGHT_FRONT_WHEEL_PORT = 9,
+    RIGHT_FRONT_WHEEL_PORT = 7,
 
-    CLAMP_PORT = 'B',
-    SORTER_PORT = 'a', //doesn't exist yet
-    DOINKER_PORT = 'c' //doesn't exist yet
+    CLAMP_PORT = 'A',
+    SORTER_PORT = 'G', //doesn't exist yet
+    DOINKER_PORT = 'C' //doesn't exist yet
 };
 
 extern pros::Motor intake;
