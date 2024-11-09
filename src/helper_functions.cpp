@@ -42,7 +42,7 @@ int team = RED; //default
 
 int getRingColor()
 {
-    double blueThreshold = 105;
+    double blueThreshold = 90;
     double redThreshold = 30;
 
     double hue = light.get_hue();

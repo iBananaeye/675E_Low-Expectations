@@ -10,8 +10,8 @@ const int ON = 1;
 const int OFF = 0;
 
 // local variable defined
-const int vel = 600;
-const int arm_vel = 400; 
+int vel = 400;
+const int arm_vel = 350; 
 
 bool clamp_state = false;
 
@@ -46,7 +46,7 @@ void wall_score() {
     arm.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
     //Negative is up
     const int DOWN_POSITION = -20; //Not 0 to make sure the motors don't fry themselves going through metal
-    const int LOAD_POSITION = -318;
+    const int LOAD_POSITION = -330;
     const int SCORE_POSITION = -1670; 
     arm.pros::Motor::tare_position();
 
@@ -91,11 +91,17 @@ void wall_score() {
 void sorter()
 {
     pros::ADIDigitalOut sorter(Port::SORTER_PORT);
-    enum{RED, BLUE};
+    enum{RED, BLUE, OTHER};
     int team = getTeam(); // defaults to red
     int color = team;
-    bool manual = false;
+    bool manual = true;
     bool sorterState = false;
+    
+    master.print(0,0,"T%s-%s %s", 
+            team == RED ? "R" : "B" ,
+            manual ? "Man" : "Aut", 
+            color == RED ? "R" : color==OTHER ?"U" : "B"
+        ); //Prints 'T[Alliance Color Initial]-[Whether in auto or manual mode] [Last seen color]'
 
     sorter.set_value(OFF);
     while(true)
@@ -104,36 +110,59 @@ void sorter()
         if(master.get_digital(pros::E_CONTROLLER_DIGITAL_B))
         {
             manual = !manual;
+            if(vel == 350) vel =600;
+            else vel = 350;
+            wait(300);
             sorter.set_value(OFF);
+             master.print(0,0,"T%s-%s %s", team == RED ? "R" : "B" , manual ? "Man" : "Aut", color == RED ? "R" : color==OTHER ?"U" : "B");
         }
-        if(!manual)
+        if(!manual && color != 2)
         {
             switch (color == team)
             {
                 case true:
                     sorter.set_value(OFF);
                     sorterState = OFF;
+                    master.print(0,0,"T%s-%s %s", team == RED ? "R" : "B" , manual ? "Man" : "Aut", color == RED ? "R" : color==OTHER ?"U" : "B");
                     break;
                 case false:
                     sorter.set_value(ON);
                     sorterState = ON;
+                    master.print(0,0,"T%s-%s %s", team == RED ? "R" : "B" , manual ? "Man" : "Aut", color == RED ? "R" : color==OTHER ?"U" : "B");
                     break;
             }
         }
-        else
+        // if(!manual && light.get_proximity() == 255)
+        // {
+        //     if(color == OTHER )
+        //     { 
+        //         color = BLUE;
+        //     }
+        //     switch (color == team)
+        //     {
+        //         case true:
+        //             sorter.set_value(OFF);
+        //             sorterState = OFF;
+        //             master.print(0,0,"T%s-%s %s", team == RED ? "R" : "B" , manual ? "Man" : "Aut", color == RED ? "R" : color==OTHER ?"U" : "B");
+        //             break;
+        //         case false:
+        //             sorter.set_value(ON);
+        //             sorterState = ON;
+        //             master.print(0,0,"T%s-%s %s", team == RED ? "R" : "B" , manual ? "Man" : "Aut", color == RED ? "R" : color==OTHER ?"U" : "B");
+        //             break;
+        //     }
+        // }
+        else if(manual)
         {
             if(master.get_digital(pros::E_CONTROLLER_DIGITAL_X))
             {
                 sorter.set_value(!sorterState);
+                sorterState = !sorterState;
+                wait(300);
+                master.print(0,0,"T%s-%s %s %d   ", team == RED ? "R" : "B" , manual ? "Man" : "Aut", color == RED ? "R" : color==OTHER ?"U" : "B", light.get_proximity());
             }
         }
-        master.print(0,0,"T%s-%s %s %.1lf", 
-            team == RED ? "R" : "B" ,
-            manual ? "Man" : "Aut", 
-            color == RED ? "R" : "B",
-            light.get_hue()
-        ); //Prints 'T[Alliance Color Initial]-[Whether in auto or manual mode] [Last seen color] [Hue value]'
-        wait(250);
+        wait(10);
     }
 }
 
