@@ -42,24 +42,32 @@ int team = RED; //default
 
 int getRingColor()
 {
+    //Color sensors returns a hue in degrees on a color wheel
+    //Red is at the top of the wheel blue is around 6 to 9 o clock
+
+    //Red is 330-30
+    //Blue is 150-250 depending on shade
+
     double blueThreshold = 90;
-    double redThreshold = 30;
+    double lowRedThreshold = 30; 
+    double highRedThreshold = 270;
 
     double hue = light.get_hue();
-    if(hue > blueThreshold) 
-    {
-        return BLUE;
-    }
-    else if(hue < redThreshold) 
+
+    if(hue < lowRedThreshold || hue > highRedThreshold) 
     {
         return RED;
+    }
+    else if(hue > blueThreshold) 
+    {
+        return BLUE;
     }
     return OTHER;
 }
 
-void setTeam()
+void setTeam() //sets the team to whatever ring is over the color sensor
 {
-    int col = getRingColor();
+    int col = getRingColor(); //defaults to red
     if(col != OTHER)
     {
         team = col;

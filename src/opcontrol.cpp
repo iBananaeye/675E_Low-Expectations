@@ -10,7 +10,7 @@ const int ON = 1;
 const int OFF = 0;
 
 // local variable defined
-int vel = 400;
+int vel = 600;
 const int arm_vel = 350; 
 
 bool clamp_state = false;
@@ -45,8 +45,8 @@ void clamps() {
 void wall_score() {
     arm.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
     //Negative is up
-    const int DOWN_POSITION = -20; //Not 0 to make sure the motors don't fry themselves going through metal
-    const int LOAD_POSITION = -330;
+    const int DOWN_POSITION = -15; //Not 0 to make sure the motors don't fry themselves going through metal
+    const int LOAD_POSITION = -285;
     const int SCORE_POSITION = -1670; 
     arm.pros::Motor::tare_position();
 
@@ -90,33 +90,36 @@ void wall_score() {
 
 void sorter()
 {
-    pros::ADIDigitalOut sorter(Port::SORTER_PORT);
+    pros::ADIDigitalOut sorter(Port::SORTER_PORT); //port in config.hpp
     enum{RED, BLUE, OTHER};
+    const int waitTime = 275; //time before piston is retracted
+
     int team = getTeam(); // defaults to red
     int color = team;
-    bool manual = true;
     bool sorterState = false;
+    bool manual = false; // defaults to automatic
+
+    light.set_integration_time(20); //20 Millisecond refresh rate
+    //The sensor can go down to 3, but brain only accepts every 20ms. Anything faster than this leds to nonsense being sensed
     
     master.print(0,0,"T%s-%s %s", 
             team == RED ? "R" : "B" ,
             manual ? "Man" : "Aut", 
-            color == RED ? "R" : color==OTHER ?"U" : "B"
+            color == RED ? "R" : color==OTHER ? "U" : "B"
         ); //Prints 'T[Alliance Color Initial]-[Whether in auto or manual mode] [Last seen color]'
 
-    sorter.set_value(OFF);
+    sorter.set_value(OFF); //defaults to off
     while(true)
     {
         color = getRingColor();
-        if(master.get_digital(pros::E_CONTROLLER_DIGITAL_B))
+        if(master.get_digital(pros::E_CONTROLLER_DIGITAL_Y)) // Alternates from auto to manual mode
         {
             manual = !manual;
-            if(vel == 350) vel =600;
-            else vel = 350;
             wait(300);
             sorter.set_value(OFF);
-             master.print(0,0,"T%s-%s %s", team == RED ? "R" : "B" , manual ? "Man" : "Aut", color == RED ? "R" : color==OTHER ?"U" : "B");
+            master.print(0,0,"T%s-%s %s", team == RED ? "R" : "B" , manual ? "Man" : "Aut", color == RED ? "R" : color==OTHER ?"U" : "B");
         }
-        if(!manual && color != 2)
+        if(!manual && color != OTHER)
         {
             switch (color == team)
             {
@@ -127,42 +130,29 @@ void sorter()
                     break;
                 case false:
                     sorter.set_value(ON);
-                    sorterState = ON;
                     master.print(0,0,"T%s-%s %s", team == RED ? "R" : "B" , manual ? "Man" : "Aut", color == RED ? "R" : color==OTHER ?"U" : "B");
+                    while(true) //prevents wasting air if opposing rings is held over sensor
+                    {
+                        wait(waitTime);
+                        if((getRingColor() == team || getRingColor() == OTHER))
+                        {
+                            break;
+                        }
+                    }
+                    sorter.set_value(OFF);
                     break;
             }
         }
-        // if(!manual && light.get_proximity() == 255)
-        // {
-        //     if(color == OTHER )
-        //     { 
-        //         color = BLUE;
-        //     }
-        //     switch (color == team)
-        //     {
-        //         case true:
-        //             sorter.set_value(OFF);
-        //             sorterState = OFF;
-        //             master.print(0,0,"T%s-%s %s", team == RED ? "R" : "B" , manual ? "Man" : "Aut", color == RED ? "R" : color==OTHER ?"U" : "B");
-        //             break;
-        //         case false:
-        //             sorter.set_value(ON);
-        //             sorterState = ON;
-        //             master.print(0,0,"T%s-%s %s", team == RED ? "R" : "B" , manual ? "Man" : "Aut", color == RED ? "R" : color==OTHER ?"U" : "B");
-        //             break;
-        //     }
-        // }
-        else if(manual)
+        if(manual)
         {
-            if(master.get_digital(pros::E_CONTROLLER_DIGITAL_X))
+            if(master.get_digital(pros::E_CONTROLLER_DIGITAL_X)) //manually control like clamp
             {
                 sorter.set_value(!sorterState);
                 sorterState = !sorterState;
                 wait(300);
-                master.print(0,0,"T%s-%s %s %d   ", team == RED ? "R" : "B" , manual ? "Man" : "Aut", color == RED ? "R" : color==OTHER ?"U" : "B", light.get_proximity());
             }
         }
-        wait(10);
+        wait(5);
     }
 }
 
@@ -173,9 +163,10 @@ void doinker()
     doinker.set_value(OFF);
     while(true)
     {
-        if(master.get_digital(pros::E_CONTROLLER_DIGITAL_Y))
+        if(master.get_digital(pros::E_CONTROLLER_DIGITAL_B))
         {
             doinker.set_value(!doinkerState);
+            doinkerState = !doinkerState;
             wait(200);
         }
     }
@@ -196,7 +187,7 @@ void debugTurn() //help find turn angles
             imu.tare_yaw();
             wait(200);
         }
-        master.print(1,0, "Angle: %.1lf    ", imu.get_yaw());
+        master.print(1,0, "Angle: %.1lf  ", imu.get_yaw());
         wait(300);
     }
 }

@@ -34,7 +34,7 @@ enum Port
 
     CLAMP_PORT = 'G',
     SORTER_PORT = 'F', 
-    DOINKER_PORT = 'C' //doesn't exist yet
+    DOINKER_PORT = 'H' //doesn't exist yet
 };
 
 extern pros::Motor intake;
