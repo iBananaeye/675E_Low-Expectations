@@ -7,7 +7,7 @@ Drive chassis (
   {-11,-6,-10}
 
   // Right Chassis Ports
-  ,{19,20,7} // 5 replaced port 1
+  ,{17,20,7} // 5 replaced port 1
 
   // IMU Port
   ,18
@@ -85,7 +85,7 @@ void autonomous() {
   	//ez::as::auton_selector.call_selected_auton(); // Calls selected auton from autonomous selector.
 
 
-  top_blue_simple();
+  skills();
 }
 
 /**
@@ -101,10 +101,10 @@ void opcontrol() {
     pros::Task clampT(clamps);
     pros::Task wall_scoreT(wall_score);
 
-    pros::Task sorterT(sorterOP);
-    pros::Task doinkerT(doinker);
+    // pros::Task sorterT(sorterOP);
+    // pros::Task doinkerT(doinker);
 
-    pros::Task debugTurnT(debugTurn);
+    // pros::Task debugTurnT(debugTurn);
     // pros::Task debugDriveT(debugDrive);
 
     while (true) {

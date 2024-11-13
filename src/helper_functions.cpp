@@ -10,7 +10,7 @@ void intaker(double v) {
 }
 
 void intaker_wait(double v,int time) {
-    intake.move_velocity(-v);
+    intake.move_velocity(v);
     conveyor.move_velocity(v);
 
     pros::delay(time);

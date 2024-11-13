@@ -16,8 +16,8 @@ char clamp_portOP = 'B';
 
 int imu_port = 18;
 
-char sorter_portOP = 'A'; //fix
-int color_port = 1; //fix
+// char sorter_portOP = 'A'; //fix
+// int color_port = 4; //fix
 
 char doinker_portOP = 'B'; //fix
 
@@ -94,160 +94,160 @@ void wall_score() {
 
 int TEAM = 0; //Someone remind me to fix this, idk where to declare team color, and this code kinda ugly ngl
 
-void sorterOP()
-{
-    pros::ADIDigitalOut sorter(sorter_portOP);
-    pros::Optical light(color_port);
-    pros::c::optical_rgb_s_t rgbVal;
-    enum{RED, BLUE};
-    double blueThreshold = 10;
-    double redThreshold = 10;
-    int color = TEAM;
-    bool manual = false;
-    bool sorterState = false;
+// void sorterOP()
+// {
+//     pros::ADIDigitalOut sorter(sorter_portOP);
+//     pros::Optical light(color_port);
+//     pros::c::optical_rgb_s_t rgbVal;
+//     enum{RED, BLUE};
+//     double blueThreshold = 10;
+//     double redThreshold = 10;
+//     int color = TEAM;
+//     bool manual = false;
+//     bool sorterState = false;
 
-    sorter.set_value(OFF);
-    while(true)
-    {
-        rgbVal = light.get_rgb();
-        if(rgbVal.blue > blueThreshold) {color = BLUE;}
-        else if(rgbVal.red > redThreshold) {color = RED;}
+//     sorter.set_value(OFF);
+//     while(true)
+//     {
+//         rgbVal = light.get_rgb();
+//         if(rgbVal.blue > blueThreshold) {color = BLUE;}
+//         else if(rgbVal.red > redThreshold) {color = RED;}
 
-        if(master.get_digital(pros::E_CONTROLLER_DIGITAL_B))
-        {
-            manual = !manual;
-        }
-        if(!manual)
-        {
-            switch (color == TEAM)
-            {
-                case true:
-                    sorter.set_value(OFF);
-                    sorterState = OFF;
-                    break;
-                case false:
-                    sorter.set_value(ON);
-                    sorterState = ON;
-                    break;
-            }
-        }
-        else
-        {
-            if (master.get_digital(pros::E_CONTROLLER_DIGITAL_X))
-            {
-                sorter.set_value(!sorterState);
-            }
-        }
-        master.print(2,0,"Sorter: %s", manual ? "Manual" : "Automatic");
-        wait(200);
-    }
-}
+//         if(master.get_digital(pros::E_CONTROLLER_DIGITAL_B))
+//         {
+//             manual = !manual;
+//         }
+//         if(!manual)
+//         {
+//             switch (color == TEAM)
+//             {
+//                 case true:
+//                     sorter.set_value(OFF);
+//                     sorterState = OFF;
+//                     break;
+//                 case false:
+//                     sorter.set_value(ON);
+//                     sorterState = ON;
+//                     break;
+//             }
+//         }
+//         else
+//         {
+//             if (master.get_digital(pros::E_CONTROLLER_DIGITAL_X))
+//             {
+//                 sorter.set_value(!sorterState);
+//             }
+//         }
+//         master.print(2,0,"Sorter: %s", manual ? "Manual" : "Automatic");
+//         wait(200);
+//     }
+// }
 
-void doinker()
-{
-    pros::ADIDigitalOut doinker(doinker_portOP);
-    bool doinkerState = OFF;
-    doinker.set_value(OFF);
-    while(true)
-    {
-        if(master.get_digital(pros::E_CONTROLLER_DIGITAL_Y))
-        {
-            doinker.set_value(!doinkerState);
-            wait(300);
-        }
-        wait(200);
-    }
-}
+// void doinker()
+// {
+//     pros::ADIDigitalOut doinker(doinker_portOP);
+//     bool doinkerState = OFF;
+//     doinker.set_value(OFF);
+//     while(true)
+//     {
+//         if(master.get_digital(pros::E_CONTROLLER_DIGITAL_Y))
+//         {
+//             doinker.set_value(!doinkerState);
+//             wait(300);
+//         }
+//         wait(200);
+//     }
+// }
 
-void debugTurn() //help find turn angles
-{
-    master.clear();
-    pros::Imu imu(imu_port);
-    while(true)
-    {
-        if(master.get_digital(pros::E_CONTROLLER_DIGITAL_LEFT))
-        {
-            imu.tare_yaw();
-            wait(200);
-        }
-        master.print(0,0, "Angle: %.1lf    ", imu.get_yaw());
-        wait(300);
-    }
-}
+// void debugTurn() //help find turn angles
+// {
+//     master.clear();
+//     pros::Imu imu(imu_port);
+//     while(true)
+//     {
+//         if(master.get_digital(pros::E_CONTROLLER_DIGITAL_LEFT))
+//         {
+//             imu.tare_yaw();
+//             wait(200);
+//         }
+//         master.print(0,0, "Angle: %.1lf    ", imu.get_yaw());
+//         wait(300);
+//     }
+// }
 
-int inches = 0;
-void debugDrive()
-{
-    chassis.set_drive_brake(pros::E_MOTOR_BRAKE_BRAKE);
-    master.clear();
-    while(true)
-    {
-        int target = 0;
-        while(master.get_digital(pros::E_CONTROLLER_DIGITAL_RIGHT) == 0)
-        {
-            if(master.get_digital(pros::E_CONTROLLER_DIGITAL_LEFT) == 1 && master.get_digital(pros::E_CONTROLLER_DIGITAL_UP) == 1)
-            {
-                inches = 0;
-            }
-            else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_UP))
-            {
-                target += 1;
-            }
-            else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_DOWN))
-            {
-                target -= 1;
-            }
-            master.print(1,0, "Dist: %d, Go: %d     ", inches, target);
-            wait(200);
-        }
-        for(pros::Motor m : chassis.left_motors)
-        {
-            if(target < 0)
-            {
-                m.move_velocity(-40);
-            }
-            else
-            {
-                m.move_velocity(40);
-            }
+// int inches = 0;
+// void debugDrive()
+// {
+//     chassis.set_drive_brake(pros::E_MOTOR_BRAKE_BRAKE);
+//     master.clear();
+//     while(true)
+//     {
+//         int target = 0;
+//         while(master.get_digital(pros::E_CONTROLLER_DIGITAL_RIGHT) == 0)
+//         {
+//             if(master.get_digital(pros::E_CONTROLLER_DIGITAL_LEFT) == 1 && master.get_digital(pros::E_CONTROLLER_DIGITAL_UP) == 1)
+//             {
+//                 inches = 0;
+//             }
+//             else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_UP))
+//             {
+//                 target += 1;
+//             }
+//             else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_DOWN))
+//             {
+//                 target -= 1;
+//             }
+//             master.print(1,0, "Dist: %d, Go: %d     ", inches, target);
+//             wait(200);
+//         }
+//         for(pros::Motor m : chassis.left_motors)
+//         {
+//             if(target < 0)
+//             {
+//                 m.move_velocity(-40);
+//             }
+//             else
+//             {
+//                 m.move_velocity(40);
+//             }
 
-        }
-        for(pros::Motor m : chassis.right_motors)
-        {
-            if(target < 0)
-            {
-                m.move_velocity(-42);
-            }
-            else
-            {
-                m.move_velocity(42);
-            }
-        }
-        chassis.left_motors[1].tare_position();
-        double factor = 48;
-        int offset = 20;
-        if(target < 0)
-        {
-            factor = 51.5;
-        }
-        else if(target == 0)
-        {
-            offset = 0;
-        }
-        while((abs(chassis.left_motors[1].get_position()) < abs(target * factor - offset)))
-        {
-            wait(100);
-        }
-        for(pros::Motor m : chassis.left_motors)
-        {
-            m.move_velocity(0);
-        }
-        for(pros::Motor m : chassis.right_motors)
-        {
-            m.move_velocity(0);
-        }
-        inches += target;
-        wait(200);
-        master.clear_line(1);
-    }
-}
+//         }
+//         for(pros::Motor m : chassis.right_motors)
+//         {
+//             if(target < 0)
+//             {
+//                 m.move_velocity(-42);
+//             }
+//             else
+//             {
+//                 m.move_velocity(42);
+//             }
+//         }
+//         chassis.left_motors[1].tare_position();
+//         double factor = 48;
+//         int offset = 20;
+//         if(target < 0)
+//         {
+//             factor = 51.5;
+//         }
+//         else if(target == 0)
+//         {
+//             offset = 0;
+//         }
+//         while((abs(chassis.left_motors[1].get_position()) < abs(target * factor - offset)))
+//         {
+//             wait(100);
+//         }
+//         for(pros::Motor m : chassis.left_motors)
+//         {
+//             m.move_velocity(0);
+//         }
+//         for(pros::Motor m : chassis.right_motors)
+//         {
+//             m.move_velocity(0);
+//         }
+//         inches += target;
+//         wait(200);
+//         master.clear_line(1);
+//     }
+// }

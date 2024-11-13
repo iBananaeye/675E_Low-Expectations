@@ -11,11 +11,10 @@ const int SWING_SPEED = 90;
 const int INTAKE_SPEED = 550;
 char clamp_portAUTON = 'G';
 
-int TEAM = 0; //Someone remind me to fix this, idk where to declare team color, and this code kinda ugly ngl
-int imu_port = 7;
+// int TEAM = 0; //Someone remind me to fix this, idk where to declare team color, and this code kinda ugly ngl
 
-char sorter_portOP = 'A'; //fix
-int color_port = 1; //fix
+// char sorter_portOP = 'A'; //fix
+// int color_port = 1; //fix
 #define ON 1
 #define OFF 0
 
@@ -62,40 +61,40 @@ void tune_PID(){
   //go straight for a while to check heading
 }                                                              
 
-int sorterSkill()
-{
-    pros::ADIDigitalOut sorter(sorter_portOP);
-    pros::Optical light(color_port);
-    pros::c::optical_rgb_s_t rgbVal;
-    enum{RED, BLUE};
-    double blueThreshold = 10;
-    double redThreshold = 10;
-    int color = TEAM;
-    bool sorterState = false;
-    bool found = 0;
+// int sorterSkill()
+// {
+//     pros::ADIDigitalOut sorter(sorter_portOP);
+//     pros::Optical light(color_port);
+//     pros::c::optical_rgb_s_t rgbVal;
+//     enum{RED, BLUE};
+//     double blueThreshold = 10;
+//     double redThreshold = 10;
+//     int color = TEAM;
+//     bool sorterState = false;
+//     bool found = 0;
 
-    sorter.set_value(OFF);
+//     sorter.set_value(OFF);
 
 
-    while (!found) {
-      rgbVal = light.get_rgb();
-      if(rgbVal.blue > blueThreshold) {color = BLUE;}
-      else if(rgbVal.red > redThreshold) {color = RED;}
+//     while (!found) {
+//       rgbVal = light.get_rgb();
+//       if(rgbVal.blue > blueThreshold) {color = BLUE;}
+//       else if(rgbVal.red > redThreshold) {color = RED;}
       
-      master.print(0,2,"Color: %s", color);
-      wait(150);
+//       master.print(0,2,"Color: %s", color);
+//       wait(150);
 
-      if (color == BLUE) {
-        return 1;
-      }
-      else if (color == RED) {
-        return 0;
-      }
-      else {
-        continue;
-      }
-    }
-}
+//       if (color == BLUE) {
+//         return 1;
+//       }
+//       else if (color == RED) {
+//         return 0;
+//       }
+//       else {
+//         continue;
+//       }
+//     }
+// }
 
 
 
@@ -297,33 +296,69 @@ void skills(){
   clamp.set_value(clamp_state); // retracted (unclamped)
 
   //red
-  turn_drive_wait(-45, TURN_SPEED);
   move_drive_wait(-10, DRIVE_SPEED);
   clamp.set_value(!clamp_state); //get mogol
+  move_drive_wait(-4, DRIVE_SPEED);
 
-  intaker(INTAKE_SPEED);
-  move_drive_wait(20, DRIVE_SPEED);
-  intaker(0); //scores 1 ring
   turn_drive_wait(-90, TURN_SPEED);
   intaker(INTAKE_SPEED);
-  move_drive_wait(5, DRIVE_SPEED);
-  intaker(0); // 1 ring
-  turn_drive_wait(-180, TURN_SPEED);
+  move_drive_wait(16, DRIVE_SPEED);
+  intaker_wait(INTAKE_SPEED, 400);
   intaker(INTAKE_SPEED);
-  move_drive_wait(5, DRIVE_SPEED);
-  intaker(0); // 1 ring
-  turn_drive_wait(-90, TURN_SPEED);
-  intaker(INTAKE_SPEED);
-  move_drive_wait(13, DRIVE_SPEED);
-  intaker(0); // 1 ring
-  turn_drive_wait(-210, TURN_SPEED);
-  intaker(INTAKE_SPEED);
-  move_drive_wait(25, DRIVE_SPEED);
-  intaker(0); // 1 ring
-  turn_drive_wait(-150,TURN_SPEED);
-  move_drive_wait(26, DRIVE_SPEED);
+  turn_drive_wait(-30, TURN_SPEED);
+  move_drive_wait(14, DRIVE_SPEED);
+  intaker_wait(INTAKE_SPEED, 400);
+  intaker(400);
+  move_drive_wait(-13, DRIVE_SPEED);
+  turn_drive_wait(-88, TURN_SPEED);
+  move_drive_wait(16, DRIVE_SPEED);
+  move_drive_wait(-16, DRIVE_SPEED);
+  turn_drive_wait(152, TURN_SPEED);
+  move_drive_wait(24, DRIVE_SPEED);
 
+  turn_drive_wait(135, TURN_SPEED);
+  move_drive_wait(23, DRIVE_SPEED);
+  intaker_wait(INTAKE_SPEED, 300);
+  intaker(INTAKE_SPEED);
+
+  move_drive_wait(-25, DRIVE_SPEED);
+  turn_drive_wait(-45, TURN_SPEED);
+  move_drive_wait(-35, DRIVE_SPEED);
   clamp.set_value(clamp_state);
+  move_drive_wait(35, DRIVE_SPEED);
+
+
+
+
+  turn_drive_wait(-135, TURN_SPEED);
+  move_drive_wait(30, DRIVE_SPEED);
+  intaker_wait(INTAKE_SPEED, 300);
+  intaker(INTAKE_SPEED);
+
+
+  // intaker(INTAKE_SPEED);
+  // move_drive_wait(20, DRIVE_SPEED);
+  // intaker(0); //scores 1 ring
+  // turn_drive_wait(-90, TURN_SPEED);
+  // intaker(INTAKE_SPEED);
+  // move_drive_wait(5, DRIVE_SPEED);
+  // intaker(0); // 1 ring
+  // turn_drive_wait(-180, TURN_SPEED);
+  // intaker(INTAKE_SPEED);
+  // move_drive_wait(5, DRIVE_SPEED);
+  // intaker(0); // 1 ring
+  // turn_drive_wait(-90, TURN_SPEED);
+  // intaker(INTAKE_SPEED);
+  // move_drive_wait(13, DRIVE_SPEED);
+  // intaker(0); // 1 ring
+  // turn_drive_wait(-210, TURN_SPEED);
+  // intaker(INTAKE_SPEED);
+  // move_drive_wait(25, DRIVE_SPEED);
+  // intaker(0); // 1 ring
+  // turn_drive_wait(-150,TURN_SPEED);
+  // move_drive_wait(26, DRIVE_SPEED);
+
+  // clamp.set_value(clamp_state);
 
 
 
