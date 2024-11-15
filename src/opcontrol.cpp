@@ -12,7 +12,7 @@ const int vel = 600;
 const int arm_vel = 400;
 
 bool clamp_state = false;
-char clamp_portOP = 'B';
+char clamp_portOP = 'G';
 
 int imu_port = 18;
 

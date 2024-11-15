@@ -121,7 +121,7 @@ void bottom_red_simple() {
 
   // intake and turn + move to touch Ladder
   turn_drive_wait(-252, TURN_SPEED);
-  move_drive_wait(30, DRIVE_SPEED-40);
+  move_drive_wait(29, DRIVE_SPEED-40);
   intaker(0);
 
   clamp.set_value(clamp_state);
@@ -269,15 +269,15 @@ void top_blue_simple() {
   wait(500);
 
   // turn intake towards stacked rings (target is bottom red)
-  turn_drive_wait(-110, TURN_SPEED);
+  turn_drive_wait(-104, TURN_SPEED);
   move_drive_wait(10, DRIVE_SPEED);
 
   intaker(400);
   move_drive_wait(15, DRIVE_SPEED);
   wait(500);
-  turn_drive_wait(-180, TURN_SPEED);
+  turn_drive_wait(-187, TURN_SPEED);
   wait(1500);
-  move_drive_wait(10, DRIVE_SPEED-30);
+  move_drive_wait(12, DRIVE_SPEED-20);
   wait(4000);
   intaker(0);
 
@@ -306,7 +306,7 @@ void skills(){
   intaker_wait(INTAKE_SPEED, 400);
   intaker(INTAKE_SPEED);
   turn_drive_wait(-30, TURN_SPEED);
-  move_drive_wait(14, DRIVE_SPEED);
+  move_drive_wait(15, DRIVE_SPEED);
   intaker_wait(INTAKE_SPEED, 400);
   intaker(400);
   move_drive_wait(-13, DRIVE_SPEED);
@@ -323,9 +323,9 @@ void skills(){
 
   move_drive_wait(-25, DRIVE_SPEED);
   turn_drive_wait(-45, TURN_SPEED);
-  move_drive_wait(-35, DRIVE_SPEED);
-  clamp.set_value(clamp_state);
   move_drive_wait(35, DRIVE_SPEED);
+  clamp.set_value(clamp_state);
+  move_drive_wait(-5, DRIVE_SPEED);
 
 
 
