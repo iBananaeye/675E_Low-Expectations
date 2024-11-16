@@ -17,7 +17,7 @@
 // 5 doesn't work?
 enum Port
 {
-    INTAKE_PORT = -2,
+    INTAKE_PORT = 2,
     CONVEYOR_PORT = 9,
     WALL_STAKE_PORT = 8,
 

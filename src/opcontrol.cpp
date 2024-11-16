@@ -11,7 +11,7 @@ const int OFF = 0;
 
 // local variable defined
 int vel = 600;
-const int arm_vel = 350; 
+const int arm_vel = 500; 
 
 bool clamp_state = false;
 
@@ -45,11 +45,11 @@ void clamps() {
 void wall_score() {
     arm.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
     //Negative is up
+    //-15, -310, -1670
     const int DOWN_POSITION = -15; //Not 0 to make sure the motors don't fry themselves going through metal
-    const int LOAD_POSITION = -285;
+    const int LOAD_POSITION = -310;
     const int SCORE_POSITION = -1670; 
     arm.pros::Motor::tare_position();
-
     int armPosition = DOWN_POSITION;
     while (true) 
     {
@@ -78,6 +78,10 @@ void wall_score() {
             {
                 armPosition = LOAD_POSITION;
                 arm.move_absolute(LOAD_POSITION, arm_vel);
+            }
+            else
+            {
+                arm.move_absolute(SCORE_POSITION, arm_vel);
             }
             wait(300);
         }
@@ -214,7 +218,7 @@ void debugDrive() //Lets you move a certain amount from controller input, not us
             {
                 target -= 1;
             }
-            master.print(1,0, "Dist: %d, Go: %d     ", inches, target);
+            master.print(2,0, "Dist: %d, Go: %d     ", inches, target);
             wait(200);
         }
         for(pros::Motor m : chassis.left_motors)

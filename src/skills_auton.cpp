@@ -75,12 +75,13 @@ void bottom_red_simple() {
 
   // intake and turn + move to touch Ladder
   turn_drive_wait(-252, TURN_SPEED);
-  move_drive_wait(30, DRIVE_SPEED-40);
+  move_drive_wait(29, DRIVE_SPEED-40);
   intaker(0);
 
   clamp.set_value(clamp_state);
 
 }
+
 
 // bottom red hard
 void bottom_red_hard() {
@@ -204,7 +205,7 @@ void bottom_blue_simple() {
 
   // intake and turn + move to touch Ladder
   turn_drive_wait(250, TURN_SPEED);
-  move_drive_wait(30, DRIVE_SPEED);
+  move_drive_wait(27, DRIVE_SPEED);
   wait(1000);
   clamp.set_value(clamp_state);
   intaker(0);
@@ -223,15 +224,15 @@ void top_blue_simple() {
   wait(500);
 
   // turn intake towards stacked rings (target is bottom red)
-  turn_drive_wait(-110, TURN_SPEED);
+  turn_drive_wait(-104, TURN_SPEED);
   move_drive_wait(10, DRIVE_SPEED);
 
   intaker(400);
   move_drive_wait(15, DRIVE_SPEED);
   wait(500);
-  turn_drive_wait(-180, TURN_SPEED);
+  turn_drive_wait(-187, TURN_SPEED);
   wait(1500);
-  move_drive_wait(10, DRIVE_SPEED-30);
+  move_drive_wait(12, DRIVE_SPEED-20);
   wait(4000);
   intaker(0);
 
@@ -242,37 +243,79 @@ void top_blue_simple() {
 
 
 
+
 //------------------ SKILLS ---------------------
+// Path 2
 void skills(){
   bool clamp_state = false;
   pros::ADIDigitalOut clamp (Port::CLAMP_PORT);
   clamp.set_value(clamp_state); // retracted (unclamped)
 
   //red
-  turn_drive_wait(-45, TURN_SPEED);
   move_drive_wait(-10, DRIVE_SPEED);
   clamp.set_value(!clamp_state); //get mogol
+  move_drive_wait(-4, DRIVE_SPEED);
 
-  intaker(INTAKE_SPEED);
-  move_drive_wait(20, DRIVE_SPEED);
-  intaker(0); //score 2 rings
   turn_drive_wait(-90, TURN_SPEED);
   intaker(INTAKE_SPEED);
-  move_drive_wait(5, DRIVE_SPEED);
-  intaker(0); // 1 ring
-  turn_drive_wait(-180, TURN_SPEED);
+  move_drive_wait(16, DRIVE_SPEED);
+  intaker_wait(INTAKE_SPEED, 400);
   intaker(INTAKE_SPEED);
-  move_drive_wait(5, DRIVE_SPEED);
-  intaker(0); // i ring
-  turn_drive_wait(-90, TURN_SPEED);
-  intaker(INTAKE_SPEED);
-  move_drive_wait(20, DRIVE_SPEED);
-  intaker(0); // 1 ring
-  turn_drive_wait(-210, TURN_SPEED);
-  intaker(INTAKE_SPEED);
+  turn_drive_wait(-30, TURN_SPEED);
+  move_drive_wait(15, DRIVE_SPEED);
+  intaker_wait(INTAKE_SPEED, 400);
+  intaker(400);
+  move_drive_wait(-13, DRIVE_SPEED);
+  turn_drive_wait(-88, TURN_SPEED);
+  move_drive_wait(16, DRIVE_SPEED);
+  move_drive_wait(-16, DRIVE_SPEED);
+  turn_drive_wait(152, TURN_SPEED);
   move_drive_wait(24, DRIVE_SPEED);
-  intaker(0); // 1 ring
-  clamp.set_value(clamp_state); 
+
+  turn_drive_wait(135, TURN_SPEED);
+  move_drive_wait(23, DRIVE_SPEED);
+  intaker_wait(INTAKE_SPEED, 300);
+  intaker(INTAKE_SPEED);
+
+  move_drive_wait(-25, DRIVE_SPEED);
+  move_drive_wait(-35, DRIVE_SPEED);
+  clamp.set_value(clamp_state);
+  move_drive_wait(-5, DRIVE_SPEED);
+
+
+
+
+  turn_drive_wait(-135, TURN_SPEED);
+  move_drive_wait(30, DRIVE_SPEED);
+  intaker_wait(INTAKE_SPEED, 300);
+  intaker(INTAKE_SPEED);
+
+
+  // intaker(INTAKE_SPEED);
+  // move_drive_wait(20, DRIVE_SPEED);
+  // intaker(0); //scores 1 ring
+  // turn_drive_wait(-90, TURN_SPEED);
+  // intaker(INTAKE_SPEED);
+  // move_drive_wait(5, DRIVE_SPEED);
+  // intaker(0); // 1 ring
+  // turn_drive_wait(-180, TURN_SPEED);
+  // intaker(INTAKE_SPEED);
+  // move_drive_wait(5, DRIVE_SPEED);
+  // intaker(0); // 1 ring
+  // turn_drive_wait(-90, TURN_SPEED);
+  // intaker(INTAKE_SPEED);
+  // move_drive_wait(13, DRIVE_SPEED);
+  // intaker(0); // 1 ring
+  // turn_drive_wait(-210, TURN_SPEED);
+  // intaker(INTAKE_SPEED);
+  // move_drive_wait(25, DRIVE_SPEED);
+  // intaker(0); // 1 ring
+  // turn_drive_wait(-150,TURN_SPEED);
+  // move_drive_wait(26, DRIVE_SPEED);
+
+  // clamp.set_value(clamp_state);
+
+
 
   //orange
   // turn_drive_wait(-135, TURN_SPEED);

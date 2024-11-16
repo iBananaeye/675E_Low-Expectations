@@ -38,7 +38,7 @@ void turn_drive_wait(double target, int speed) {
 
 //---------
 enum{RED,BLUE, OTHER};
-int team = RED; //default
+int team = BLUE; //default
 
 int getRingColor()
 {

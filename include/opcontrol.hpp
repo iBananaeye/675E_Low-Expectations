@@ -11,3 +11,5 @@ void doinker();
 
 void debugTurn();
 void debugDrive();
+
+void driveMode();

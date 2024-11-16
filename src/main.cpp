@@ -92,7 +92,9 @@ void autonomous() {
   chassis.set_drive_brake(pros::E_MOTOR_BRAKE_HOLD);
   	//ez::as::auton_selector.call_selected_auton(); // Calls selected auton from autonomous selector.
 
-  top_blue_simple();
+  pros::Task sorterAut(sorter);
+  skills();
+  sorterAut.remove();
 }
 
 /**
@@ -104,15 +106,15 @@ void autonomous() {
 
 void opcontrol() {
     chassis.set_drive_brake(pros::E_MOTOR_BRAKE_COAST);
-    setTeam();
+    // setTeam();
     pros::Task intakeT(intakes);
     pros::Task clampT(clamps);
     pros::Task wall_scoreT(wall_score);
     pros::Task sorterT(sorter);
     pros::Task doinkerT(doinker);
     
-    //pros::Task debugTurnT(debugTurn);
-    //pros::Task debugDriveT(debugDrive);
+    // pros::Task debugTurnT(debugTurn);
+    // pros::Task debugDriveT(debugDrive);
 
     while (true) {
         chassis.arcade_standard(ez::SPLIT);
@@ -121,3 +123,4 @@ void opcontrol() {
         // Used for timer calculations
     
 }
+
