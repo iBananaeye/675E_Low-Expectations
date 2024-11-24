@@ -1,4 +1,4 @@
-#include "EZ-Template/util.hpp"
+
 #include "helper_functions.hpp"
 #include "main.h"
 #include "pros/adi.h"
@@ -25,7 +25,7 @@ void intakes() {
             intaker(0);
         }
     }
-    pros::delay(ez::util::DELAY_TIME); 
+    pros::delay(20); 
 }
 
 void intakesConSorter() {
@@ -51,11 +51,11 @@ void intakesConSorter() {
             intaker(0);
         }
     }
-    pros::delay(ez::util::DELAY_TIME); 
+    pros::delay(20); 
 }
 
 void clamps() {
-    pros::ADIDigitalOut clamp (Port::CLAMP_PORT); // port in config.hpp
+    pros::adi::DigitalOut clamp (Port::CLAMP_PORT); // port in config.hpp
     clamp.set_value(clamp_state); // retracted
 
     while (true) {
@@ -65,7 +65,7 @@ void clamps() {
             wait(460);
         }
     }
-    pros::delay(ez::util::DELAY_TIME);
+    pros::delay(20);
 }
 
 void wall_score() {
@@ -115,12 +115,12 @@ void wall_score() {
         // master.print(3,0, "Pos: %.1lf", arm.get_position());
         // wait(250);
     }
-    pros::delay(ez::util::DELAY_TIME);
+    pros::delay(20);
 }
 
 void sorter()
 {
-    pros::ADIDigitalOut sorter(Port::SORTER_PORT); //port in config.hpp
+    pros::adi::DigitalOut sorter(Port::SORTER_PORT); //port in config.hpp
     enum{RED, BLUE, OTHER};
     const int waitTime = 275; //time before piston is retracted
 
@@ -188,7 +188,7 @@ void sorter()
 
 void doinker()
 {
-    pros::ADIDigitalOut doinker(Port::DOINKER_PORT);
+    pros::adi::DigitalOut doinker(Port::DOINKER_PORT);
     bool doinkerState = OFF;
     doinker.set_value(OFF);
     while(true)

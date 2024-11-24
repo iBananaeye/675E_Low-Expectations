@@ -1,41 +1,69 @@
 #include "main.h"
-#include "EZ-Template/util.hpp"
 #include "pros/motors.h"
 #include "skills_auton.hpp"
-Drive chassis (
-  // Left Chassis Ports (negative port will reverse it)
-  {
-    Port::LEFT_FARBACK_WHEEL_PORT,
-    Port::LEFT_MIDDLE_WHEEL_PORT,
-    Port::LEFT_FRONT_WHEEL_PORT
-  }
+#include "lemlib/api.hpp" // IWYU pragma: keep
 
-  // Right Chassis Ports
-  ,{
-    Port::RIGHT_FARBACK_WHEEL_PORT,
-    Port::RIGHT_MIDDLE_WHEEL_PORT,
-    Port::RIGHT_FRONT_WHEEL_PORT
-  }
+pros::MotorGroup leftMotors({
+  Port::LEFT_FARBACK_WHEEL_PORT,
+  Port::LEFT_MIDDLE_WHEEL_PORT,
+  Port::LEFT_FRONT_WHEEL_PORT
+});
+pros::MotorGroup rightMotors({
+  Port::RIGHT_FARBACK_WHEEL_PORT,
+  Port::RIGHT_MIDDLE_WHEEL_PORT,
+  Port::RIGHT_FRONT_WHEEL_PORT
+});
+lemlib::Drivetrain drivetrain{
+  &leftMotors, //List of left motors
+  &rightMotors, //List of right motors
+  16, //Distance between left and right side of the drive
+  2.75, //Wheel diameter (May be different than what the name suggests)
+  480, //RPM of drive
+  2 //Horizontal drift
+};
+lemlib::OdomSensors odomSensors{ //Odometry method, use nullptr if you dont have
+  nullptr, //First vertical tracking wheel
+  nullptr, //Second vertical tracking wheel
+  nullptr, //First horizontal tracking wheel
+  nullptr, //Second horizontal tracking wheel
+  &imu //imu, declared in config.cpp
+};
+lemlib::ControllerSettings lateralController{ //PID for translational/lateral movements
+  10, //kP - Proportional Gain
+  0, //kI - Proportional Integral Gain
+  3, //kD - Proportional Derivative Gain
+  3, //AntiWindup
+  1, //SmallError - Smaller Error range in inches
+  100, //SmallErrorTimeout
+  3, //LargeError - Larger Error range in inches
+  500, //LargeError Timeout
+  20, //Slew - Maximum acceleration
+};
+lemlib::ControllerSettings angularController{ //PID for rotational/angular/turning movements
+  2, //kP - Proportional Gain
+  0, //kI - Proportional Integral Gain
+  10, //kD - Proportional Derivative Gain
+  3, //AntiWindup
+  1, //SmallError - Smaller Error range in degrees
+  100, //SmallErrorTimeout
+  3, //LargeError - Larger Error range in degrees
+  500, //LargeError Timeout
+  0, //Slew - Maximum acceleration
+};
 
-  // IMU Port
-  ,Port::IMU_PORT
-
-  // Wheel Diameter (Remember, 4" wheels are actually 4.125!)
-  //    (or tracking wheel diameter)
-
-  ,3.25
-
-  // Cartridge RPM
-  //   (or tick per rotation if using tracking wheels)
-  ,600
-
-  // External Gear Ratio (MUST BE DECIMAL)
-  //    (or gear ratio of tracking wheel)
-  // eg. if your drive is 84:36 where the 36t is powered, your RATIO would be 2.333.
-  // eg. if your drive is 36:60 where the 60t is powered, your RATIO would be 0.6.
-  ,1.66667 // 60:36 TEST 0.6 VALUE AS WELL TO MAKE SURE DRIVE IS RUNNING AT FULL POWER.
-
+lemlib::Chassis chassis(
+  drivetrain,
+  lateralController,
+  angularController,
+  odomSensors
 );
+
+
+
+
+
+
+
 
 /**
  * Runs initialization code. This occurs as soon as the program is started.
@@ -44,18 +72,21 @@ Drive chassis (
 void initialize() {
 	pros::delay(500); // Stop the user from doing anything while legacy ports configure.
 
-  default_constants();
-  chassis.toggle_modify_curve_with_controller(false); // Enables modifying the controller curve with buttons on the joysticks
-  chassis.set_active_brake(0.0); // Sets the active brake kP. We recommend 0.1.
-  chassis.set_curve_default(0, 0); // Defaults for curve. If using tank, only the first parameter is used. 
-	ez::as::auton_selector.add_autons({
+  
 
-  });
+  // Initialize chassis and auton selector
 
-    // Initialize chassis and auton selector
-    chassis.initialize();
-  	ez::as::initialize();
-    master.clear();
+  //Lemlib intialization
+  
+  chassis.calibrate();
+  pros::Task screen_task([&]() {
+        while (true) {
+            // print robot location to the brain screen
+            pros::lcd::print(1, "X: %.1f Y: %.1f R: %.1f",chassis.getPose().x, chassis.getPose().y, chassis.getPose().theta); // y
+            // delay to save resources
+            pros::delay(20);
+        }
+    });
 }
 
 /**
@@ -63,7 +94,8 @@ void initialize() {
  * the VEX Competition Switch, following either autonomous or opcontrol. When
  * the robot is enabled, this task will exit.
  */
-void disabled() {chassis.set_drive_brake(pros::E_MOTOR_BRAKE_COAST);}
+void disabled() {//drive coast
+}
 
 /**
  * Runs after initialize(), and before autonomous when connected to the Field
@@ -85,11 +117,11 @@ void competition_initialize() {}
  */
 
 void autonomous() {
-  chassis.reset_pid_targets(); // Resets PID targets to 0
-  chassis.reset_gyro(); // Reset gyro position to 0
+  //chassis.reset_pid_targets(); // Resets PID targets to 0
+  //chassis.reset_gyro(); // Reset gyro position to 0
     //chassis.reset_drive_sensor(); // Reset drive sensors to 0
   	// chassis.set_drive_brake(pros::E_MOTOR_BRAKE_HOLD); // Set motors to hold.  This helps autonomous consistency.
-  chassis.set_drive_brake(pros::E_MOTOR_BRAKE_HOLD);
+  //chassis.set_drive_brake(pros::E_MOTOR_BRAKE_HOLD);
   	//ez::as::auton_selector.call_selected_auton(); // Calls selected auton from autonomous selector.
 
   // pros::Task sorterAut(sorter);
@@ -105,7 +137,7 @@ void autonomous() {
  */
 
 void opcontrol() { 
-    chassis.set_drive_brake(pros::E_MOTOR_BRAKE_COAST);
+    //chassis.set_drive_brake(pros::E_MOTOR_BRAKE_COAST);
     enum{RED,BLUE};
     setTeam(); //no input takes color sensor input for team
     
@@ -116,13 +148,25 @@ void opcontrol() {
     pros::Task sorterT(sorter);
     pros::Task doinkerT(doinker);
     
-    pros::Task debugTurnT(debugTurn);
+    // pros::Task debugTurnT(debugTurn);
     // pros::Task debugDriveT(debugDrive);
 
-    while (true) {
-        chassis.arcade_standard(ez::SPLIT);
+    //Easytemplate arcade drive
+    // while (true) {
+    //     chassis.arcade_standard(ez::SPLIT);
+    // }
+
+    //Lemlib arcade drive
+    while(true)
+    {
+      //Get joystick values
+      int leftY = master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
+      int rightX = master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X);
+
+      chassis.arcade(leftY, rightX);
+      pros::delay(25);
     }
-  	pros::delay(ez::util::DELAY_TIME); 
+  	pros::delay(20); 
         // Used for timer calculations
     
 }

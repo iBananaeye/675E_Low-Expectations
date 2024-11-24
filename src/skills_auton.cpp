@@ -1,6 +1,4 @@
-#include "EZ-Template/util.hpp"
 #include "skills_auton.hpp"
-#include "display/lv_hal/lv_hal_indev.h"
 #include "helper_functions.hpp"
 #include "main.h"
 
@@ -10,17 +8,17 @@ const int TURN_SPEED = 65;
 const int SWING_SPEED = 90;
 const int INTAKE_SPEED = 550;
 enum{RED,BLUE};
-pros::ADIDigitalOut clamp(Port::CLAMP_PORT);
+pros::adi::DigitalOut clamp(Port::CLAMP_PORT);
 
 void default_constants() //TUNE PID BASED OFF COMMENTS MADE BELOW
 {
-  chassis.set_slew_min_power(80, 80);
-  chassis.set_slew_distance(7, 7);
-  chassis.set_pid_constants(&chassis.headingPID, 11, 0, 20, 0);//increase D and decrease I (later on for this one) to decrease settling time = robot moves faster between calls
-  chassis.set_pid_constants(&chassis.forward_drivePID, 0.45, 0, 5, 0);//increase D and decrease I (later on for this one) to decrease settling time = robot moves faster between calls
-  chassis.set_pid_constants(&chassis.backward_drivePID, 0.45, 0, 5, 0);
-  chassis.set_pid_constants(&chassis.turnPID, 5, 0.003, 35, 15);//increase D and decrease I (later on for this one) to decrease settling time = robot moves faster between calls
-  chassis.set_pid_constants(&chassis.swingPID, 7, 0, 45, 0);
+  // chassis.set_slew_min_power(80, 80);
+  // chassis.set_slew_distance(7, 7);
+  // chassis.set_pid_constants(&chassis.headingPID, 11, 0, 20, 0);//increase D and decrease I (later on for this one) to decrease settling time = robot moves faster between calls
+  // chassis.set_pid_constants(&chassis.forward_drivePID, 0.45, 0, 5, 0);//increase D and decrease I (later on for this one) to decrease settling time = robot moves faster between calls
+  // chassis.set_pid_constants(&chassis.backward_drivePID, 0.45, 0, 5, 0);
+  // chassis.set_pid_constants(&chassis.turnPID, 5, 0.003, 35, 15);//increase D and decrease I (later on for this one) to decrease settling time = robot moves faster between calls
+  // chassis.set_pid_constants(&chassis.swingPID, 7, 0, 45, 0);
 }
 
 /*
@@ -60,7 +58,7 @@ void bottom_red_simple() {
   setTeam(RED);
   // Set-up: piston to ADI port clamp_port
   bool clamp_state = false;
-  pros::ADIDigitalOut clamp (Port::CLAMP_PORT);
+  pros::adi::DigitalOut clamp (Port::CLAMP_PORT);
   clamp.set_value(clamp_state); // retracted (unclamped)
 
   // Begin movement
@@ -89,7 +87,7 @@ void bottom_red_simple() {
 void bottom_red_hard() {
   // Set-up: piston to ADI port clamp_port
   bool clamp_state = false;
-  pros::ADIDigitalOut clamp (Port::CLAMP_PORT);
+  pros::adi::DigitalOut clamp (Port::CLAMP_PORT);
   clamp.set_value(clamp_state); // retracted (unclamped)
 
   // Begin movement
@@ -115,7 +113,7 @@ void bottom_red_hard() {
 void top_red_simple() {
 // Set-up: piston to ADI port clamp_port
   bool clamp_state = false;
-  pros::ADIDigitalOut clamp (Port::CLAMP_PORT);
+  pros::adi::DigitalOut clamp (Port::CLAMP_PORT);
   clamp.set_value(clamp_state); // retracted (unclamped)
   wait(1000);
   // Begin movement
@@ -142,7 +140,7 @@ void top_red_simple() {
 // void bottom_blue_possibly() {
 //   // Set-up: piston to ADI port clamp_port
 //   bool clamp_state = false;
-//   pros::ADIDigitalOut clamp (Port::CLAMP_PORT);
+//   pros::adi::DigitalOut clamp (Port::CLAMP_PORT);
 //   clamp.set_value(clamp_state); // retracted (unclamped)
 
 //   // Begin movement
@@ -171,7 +169,7 @@ void top_red_simple() {
 // Path 3: Red, 2 donuts and touches Ladder.
 void mid_red_line_rush(){
   bool clamp_state = false;
-  pros::ADIDigitalOut clamp (Port::CLAMP_PORT);
+  pros::adi::DigitalOut clamp (Port::CLAMP_PORT);
   clamp.set_value(clamp_state); // retracted (unclamped)
 
   //turn and get midline mogol 
@@ -194,7 +192,7 @@ void bottom_blue_simple() {
   setTeam(BLUE);
   // Set-up: piston to ADI port clamp_port
   bool clamp_state = false;
-  pros::ADIDigitalOut clamp (Port::CLAMP_PORT);
+  pros::adi::DigitalOut clamp (Port::CLAMP_PORT);
   clamp.set_value(clamp_state); // retracted (unclamped)
   wait(1000);
   // Begin movement
@@ -219,7 +217,7 @@ void top_blue_simple() {
   setTeam(BLUE);
 // Set-up: piston to ADI port clamp_port
   bool clamp_state = false;
-  pros::ADIDigitalOut clamp (Port::CLAMP_PORT);
+  pros::adi::DigitalOut clamp (Port::CLAMP_PORT);
   clamp.set_value(clamp_state); // retracted (unclamped)
 
   // Begin movement
@@ -252,7 +250,7 @@ void top_blue_simple() {
 // Path 2
 void skills(){
   bool clamp_state = false;
-  pros::ADIDigitalOut clamp (Port::CLAMP_PORT);
+  pros::adi::DigitalOut clamp (Port::CLAMP_PORT);
   clamp.set_value(clamp_state); // retracted (unclamped)
 
   //red

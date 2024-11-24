@@ -1,4 +1,3 @@
-#include "EZ-Template/api.hpp"
 #include "config.hpp"
 
 /**

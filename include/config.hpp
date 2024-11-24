@@ -43,3 +43,5 @@ extern pros::Motor arm;
 
 extern pros::Imu imu;
 extern pros::Optical light;
+
+extern pros::Controller master;

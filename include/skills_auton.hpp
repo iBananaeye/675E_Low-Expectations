@@ -1,9 +1,7 @@
 #pragma once
 
-#include "EZ-Template/drive/drive.hpp"
-#include "skills_auton.hpp"
 
-extern Drive chassis;
+#include "skills_auton.hpp"
 
 void default_constants();
 void tune_PID();
