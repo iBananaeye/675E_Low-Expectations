@@ -74,6 +74,12 @@ void setTeam() //sets the team to whatever ring is over the color sensor
     }
 }
 
+void setTeam(int t)
+{
+    team = t;
+}
+
+
 int getTeam()
 {
     return team;

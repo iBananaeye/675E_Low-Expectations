@@ -28,6 +28,32 @@ void intakes() {
     pros::delay(ez::util::DELAY_TIME); 
 }
 
+void intakesConSorter() {
+    int team = getTeam(); // defaults to red
+    int color = team;
+    bool sorterState = false;
+    bool manual = false; // defaults to automatic
+
+    light.set_integration_time(20);
+    while (true) {
+        color = getRingColor();
+        if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R1) && !master.get_digital(pros::E_CONTROLLER_DIGITAL_R2)&& color != 2 && light.get_proximity() > 215 &&color !=team)
+        {
+            intaker(-vel);
+            wait(1000);
+            intaker(0);
+        }
+        if (master.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
+            intaker(vel); //Intakes
+        } else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
+            intaker(-vel); //Outakes
+        } else {
+            intaker(0);
+        }
+    }
+    pros::delay(ez::util::DELAY_TIME); 
+}
+
 void clamps() {
     pros::ADIDigitalOut clamp (Port::CLAMP_PORT); // port in config.hpp
     clamp.set_value(clamp_state); // retracted
@@ -47,8 +73,8 @@ void wall_score() {
     //Negative is up
     //-15, -310, -1670
     const int DOWN_POSITION = -15; //Not 0 to make sure the motors don't fry themselves going through metal
-    const int LOAD_POSITION = -310;
-    const int SCORE_POSITION = -1670; 
+    const int LOAD_POSITION = -180;
+    const int SCORE_POSITION = -1550; 
     arm.pros::Motor::tare_position();
     int armPosition = DOWN_POSITION;
     while (true) 
@@ -86,7 +112,7 @@ void wall_score() {
             wait(300);
         }
         // Outputs encoder to screen to find wall stake positions
-        // master.print(0,0, "Pos: %.1lf", arm.get_position());
+        // master.print(3,0, "Pos: %.1lf", arm.get_position());
         // wait(250);
     }
     pros::delay(ez::util::DELAY_TIME);
@@ -123,7 +149,7 @@ void sorter()
             sorter.set_value(OFF);
             master.print(0,0,"T%s-%s %s", team == RED ? "R" : "B" , manual ? "Man" : "Aut", color == RED ? "R" : color==OTHER ?"U" : "B");
         }
-        if(!manual && color != OTHER)
+        if(!manual && color != OTHER && light.get_proximity() > 215)
         {
             switch (color == team)
             {
@@ -196,79 +222,79 @@ void debugTurn() //help find turn angles
     }
 }
 
-int inches = 0;
-void debugDrive() //Lets you move a certain amount from controller input, not used anywhere 
-{
-    chassis.set_drive_brake(pros::E_MOTOR_BRAKE_BRAKE);
-    master.clear();
-    while(true)
-    {
-        int target = 0;
-        while(master.get_digital(pros::E_CONTROLLER_DIGITAL_RIGHT) == 0)
-        {
-            if(master.get_digital(pros::E_CONTROLLER_DIGITAL_LEFT) == 1 && master.get_digital(pros::E_CONTROLLER_DIGITAL_UP) == 1)
-            {
-                inches = 0;
-            }
-            else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_UP))
-            {
-                target += 1;
-            }
-            else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_DOWN))
-            {
-                target -= 1;
-            }
-            master.print(2,0, "Dist: %d, Go: %d     ", inches, target);
-            wait(200);
-        }
-        for(pros::Motor m : chassis.left_motors)
-        {
-            if(target < 0)
-            {
-                m.move_velocity(-40);
-            }
-            else
-            {
-                m.move_velocity(40);
-            }
+// int inches = 0;
+// void debugDrive() //Lets you move a certain amount from controller input, not used anywhere 
+// {
+//     chassis.set_drive_brake(pros::E_MOTOR_BRAKE_BRAKE);
+//     master.clear();
+//     while(true)
+//     {
+//         int target = 0;
+//         while(master.get_digital(pros::E_CONTROLLER_DIGITAL_RIGHT) == 0)
+//         {
+//             if(master.get_digital(pros::E_CONTROLLER_DIGITAL_LEFT) == 1 && master.get_digital(pros::E_CONTROLLER_DIGITAL_UP) == 1)
+//             {
+//                 inches = 0;
+//             }
+//             else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_UP))
+//             {
+//                 target += 1;
+//             }
+//             else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_DOWN))
+//             {
+//                 target -= 1;
+//             }
+//             master.print(2,0, "Dist: %d, Go: %d     ", inches, target);
+//             wait(200);
+//         }
+//         for(pros::Motor m : chassis.left_motors)
+//         {
+//             if(target < 0)
+//             {
+//                 m.move_velocity(-40);
+//             }
+//             else
+//             {
+//                 m.move_velocity(40);
+//             }
             
-        }
-        for(pros::Motor m : chassis.right_motors)
-        {
-            if(target < 0)
-            {
-                m.move_velocity(-42);
-            }
-            else
-            {
-                m.move_velocity(42);
-            }
-        }
-        chassis.left_motors[1].tare_position();
-        double factor = 48;
-        int offset = 20;
-        if(target < 0)
-        {
-            factor = 51.5;
-        }
-        else if(target == 0)
-        {
-            offset = 0;
-        }
-        while((abs(chassis.left_motors[1].get_position()) < abs(target * factor - offset)))
-        {
-            wait(100);
-        }
-        for(pros::Motor m : chassis.left_motors)
-        {
-            m.move_velocity(0);
-        }
-        for(pros::Motor m : chassis.right_motors)
-        {
-            m.move_velocity(0);
-        }
-        inches += target;
-        wait(200);
-        master.clear_line(1);
-    }
-}
+//         }
+//         for(pros::Motor m : chassis.right_motors)
+//         {
+//             if(target < 0)
+//             {
+//                 m.move_velocity(-42);
+//             }
+//             else
+//             {
+//                 m.move_velocity(42);
+//             }
+//         }
+//         chassis.left_motors[1].tare_position();
+//         double factor = 48;
+//         int offset = 20;
+//         if(target < 0)
+//         {
+//             factor = 51.5;
+//         }
+//         else if(target == 0)
+//         {
+//             offset = 0;
+//         }
+//         while((abs(chassis.left_motors[1].get_position()) < abs(target * factor - offset)))
+//         {
+//             wait(100);
+//         }
+//         for(pros::Motor m : chassis.left_motors)
+//         {
+//             m.move_velocity(0);
+//         }
+//         for(pros::Motor m : chassis.right_motors)
+//         {
+//             m.move_velocity(0);
+//         }
+//         inches += target;
+//         wait(200);
+//         master.clear_line(1);
+//     }
+// }

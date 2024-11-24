@@ -92,9 +92,9 @@ void autonomous() {
   chassis.set_drive_brake(pros::E_MOTOR_BRAKE_HOLD);
   	//ez::as::auton_selector.call_selected_auton(); // Calls selected auton from autonomous selector.
 
-  pros::Task sorterAut(sorter);
+  // pros::Task sorterAut(sorter);
   skills();
-  sorterAut.remove();
+  // sorterAut.remove();
 }
 
 /**
@@ -104,16 +104,19 @@ void autonomous() {
  * control mode.
  */
 
-void opcontrol() {
+void opcontrol() { 
     chassis.set_drive_brake(pros::E_MOTOR_BRAKE_COAST);
-    // setTeam();
+    enum{RED,BLUE};
+    setTeam(); //no input takes color sensor input for team
+    
     pros::Task intakeT(intakes);
+    // pros::Task intakeConSortT(intakesConSorter);
     pros::Task clampT(clamps);
     pros::Task wall_scoreT(wall_score);
     pros::Task sorterT(sorter);
     pros::Task doinkerT(doinker);
     
-    // pros::Task debugTurnT(debugTurn);
+    pros::Task debugTurnT(debugTurn);
     // pros::Task debugDriveT(debugDrive);
 
     while (true) {

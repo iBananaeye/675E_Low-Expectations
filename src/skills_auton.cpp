@@ -9,6 +9,7 @@ const int DRIVE_SPEED = 110; // This is 110/127 (around 87% of max speed). When 
 const int TURN_SPEED = 65;
 const int SWING_SPEED = 90;
 const int INTAKE_SPEED = 550;
+enum{RED,BLUE};
 pros::ADIDigitalOut clamp(Port::CLAMP_PORT);
 
 void default_constants() //TUNE PID BASED OFF COMMENTS MADE BELOW
@@ -56,6 +57,7 @@ void tune_PID(){
 //---------------------------------------------------------------------- Autons YR 2024-2025
 // Path 2 (Simple): Red, 2 donuts and touches
 void bottom_red_simple() {
+  setTeam(RED);
   // Set-up: piston to ADI port clamp_port
   bool clamp_state = false;
   pros::ADIDigitalOut clamp (Port::CLAMP_PORT);
@@ -189,6 +191,7 @@ void mid_red_line_rush(){
 
 // Path 4: bottom blue simple
 void bottom_blue_simple() {
+  setTeam(BLUE);
   // Set-up: piston to ADI port clamp_port
   bool clamp_state = false;
   pros::ADIDigitalOut clamp (Port::CLAMP_PORT);
@@ -213,6 +216,7 @@ void bottom_blue_simple() {
 }
 
 void top_blue_simple() {
+  setTeam(BLUE);
 // Set-up: piston to ADI port clamp_port
   bool clamp_state = false;
   pros::ADIDigitalOut clamp (Port::CLAMP_PORT);
@@ -258,9 +262,10 @@ void skills(){
 
   turn_drive_wait(-90, TURN_SPEED);
   intaker(INTAKE_SPEED);
-  move_drive_wait(16, DRIVE_SPEED);
+  move_drive_wait(18, DRIVE_SPEED);
   intaker_wait(INTAKE_SPEED, 400);
   intaker(INTAKE_SPEED);
+  move_drive_wait(-2, DRIVE_SPEED); // Back up to get corner rings
   turn_drive_wait(-30, TURN_SPEED);
   move_drive_wait(15, DRIVE_SPEED);
   intaker_wait(INTAKE_SPEED, 400);
@@ -272,15 +277,14 @@ void skills(){
   turn_drive_wait(152, TURN_SPEED);
   move_drive_wait(24, DRIVE_SPEED);
 
-  turn_drive_wait(135, TURN_SPEED);
-  move_drive_wait(23, DRIVE_SPEED);
-  intaker_wait(INTAKE_SPEED, 300);
+  turn_drive_wait(142, TURN_SPEED); // Corrects to get middle ring
+  move_drive_wait(27, DRIVE_SPEED);
+  intaker_wait(INTAKE_SPEED, 300); // Gets middle ring
   intaker(INTAKE_SPEED);
 
-  move_drive_wait(-25, DRIVE_SPEED);
-  move_drive_wait(-35, DRIVE_SPEED);
+  move_drive_wait(-64, DRIVE_SPEED);
   clamp.set_value(clamp_state);
-  move_drive_wait(-5, DRIVE_SPEED);
+  move_drive_wait(5, DRIVE_SPEED); // Backs up to turn adn get mid rings
 
 
 

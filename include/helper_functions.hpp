@@ -11,5 +11,6 @@ void turn_drive_wait(double target, int speed);
 
 int getRingColor();
 void setTeam();
+void setTeam(int t);
 int getTeam();
 

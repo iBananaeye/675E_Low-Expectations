@@ -4,6 +4,7 @@
 // extern void intake_power(double percent);
 
 void intakes();
+void intakesConSorter();
 void clamps();
 void wall_score();
 void sorter();
