@@ -36,6 +36,30 @@ void turn_drive_wait(double target, int speed) {
     // chassis.wait_drive();
 }
 
+enum Wall{
+    DOWN_POSITION = -15, //Not 0 to make sure the motors don't fry themselves going through metal
+    LOAD_POSITION = -120,
+    SCORE_POSITION = -555, 
+    INSERT_POSITION = -630
+};
+
+void wall_staker(int pos, int arm_vel)
+{
+    arm.move_absolute(pos, arm_vel);
+}
+
+
+void doink()
+{
+    pros::adi::DigitalOut doinker(Port::DOINKER_PORT);
+    doinker.set_value(true);
+}
+void undoink()
+{
+    pros::adi::DigitalOut doinker(Port::DOINKER_PORT);
+    doinker.set_value(false);
+}
+
 //---------
 enum{RED,BLUE, OTHER};
 int team = BLUE; //default

@@ -25,7 +25,7 @@ void intakes() {
             intaker(0);
         }
     }
-    pros::delay(20); 
+    pros::delay(10); 
 }
 
 void intakesConSorter() {
@@ -51,7 +51,7 @@ void intakesConSorter() {
             intaker(0);
         }
     }
-    pros::delay(20); 
+    pros::delay(10); 
 }
 
 void clamps() {
@@ -65,7 +65,7 @@ void clamps() {
             wait(460);
         }
     }
-    pros::delay(20);
+    pros::delay(10);
 }
 
 void wall_score() {
@@ -73,8 +73,9 @@ void wall_score() {
     //Negative is up
     //-15, -310, -1670
     const int DOWN_POSITION = -15; //Not 0 to make sure the motors don't fry themselves going through metal
-    const int LOAD_POSITION = -180;
-    const int SCORE_POSITION = -1550; 
+    const int LOAD_POSITION = -120;
+    const int SCORE_POSITION = -555; //-55
+    const int INSERT_POSITION = -630;
     arm.pros::Motor::tare_position();
     int armPosition = DOWN_POSITION;
     while (true) 
@@ -102,6 +103,11 @@ void wall_score() {
             }
             else if(armPosition == SCORE_POSITION)
             {
+                armPosition = INSERT_POSITION;
+                arm.move_absolute(INSERT_POSITION, arm_vel);
+            }
+            else if(armPosition == INSERT_POSITION)
+            {
                 armPosition = LOAD_POSITION;
                 arm.move_absolute(LOAD_POSITION, arm_vel);
             }
@@ -112,10 +118,10 @@ void wall_score() {
             wait(300);
         }
         // Outputs encoder to screen to find wall stake positions
-        // master.print(3,0, "Pos: %.1lf", arm.get_position());
+        // master.print(0,0, "Pos: %.1lf", arm.get_position());
         // wait(250);
     }
-    pros::delay(20);
+    pros::delay(10);
 }
 
 void sorter()
@@ -129,6 +135,7 @@ void sorter()
     bool sorterState = false;
     bool manual = false; // defaults to automatic
 
+    light.set_led_pwm(50);
     light.set_integration_time(20); //20 Millisecond refresh rate
     //The sensor can go down to 3, but brain only accepts every 20ms. Anything faster than this leds to nonsense being sensed
     
@@ -182,7 +189,7 @@ void sorter()
                 wait(300);
             }
         }
-        wait(5);
+        wait(10);
     }
 }
 
@@ -200,6 +207,43 @@ void doinker()
             wait(200);
         }
     }
+}
+
+void autoClamp()
+{  
+    pros::adi::DigitalIn autoClamp(Port::AUTOCLAMP_PORT);
+  pros::adi::DigitalOut clamp(Port::CLAMP_PORT);
+  clamp.set_value(false);
+  bool state = false;
+  bool isClamped = false;
+  bool active = true;
+  wait(300);
+  while(true)
+  {
+    if(active&& state == false && autoClamp.get_value() == 1)
+    {
+      clamp.set_value(true);
+      wait(250);
+      state = true;
+      isClamped = true;
+    }
+    if(master.get_digital(pros::E_CONTROLLER_DIGITAL_A))
+    {
+      clamp.set_value(!isClamped);
+      isClamped = !isClamped;
+      wait(500);
+    }
+    if(autoClamp.get_value() == 0)
+    {
+      state = false;
+    }
+    if(master.get_digital(pros::E_CONTROLLER_DIGITAL_LEFT))
+    {
+        active = !active;
+        wait(300);
+    }
+    wait(20);
+  }
 }
 
 

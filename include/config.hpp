@@ -1,5 +1,6 @@
 #pragma once
 #include "api.h"
+#include "lemlib/api.hpp"
 #include "pros/adi.hpp"
 #include "pros/motors.hpp"
 
@@ -13,7 +14,7 @@
 //IMU: 18
 //Clamp: B
 
-//Available Ports: 3, 12, 13, 14, 15 16, 19
+//Available Ports: 10, 12, 13, 14, 15 16, 19
 // 5 doesn't work?
 enum Port
 {
@@ -24,17 +25,18 @@ enum Port
     COLOR_SENSOR_PORT = 4,
     IMU_PORT = 18,
 
-    LEFT_FARBACK_WHEEL_PORT = -11,
-    LEFT_MIDDLE_WHEEL_PORT = -6,
-    LEFT_FRONT_WHEEL_PORT = -10,
+    LEFT_BACK_WHEEL_PORT = -6,
+    LEFT_MIDDLE_WHEEL_PORT = -11,
+    LEFT_FRONT_WHEEL_PORT = -16,
 
-    RIGHT_FARBACK_WHEEL_PORT = 17,
+    RIGHT_BACK_WHEEL_PORT = 17,
     RIGHT_MIDDLE_WHEEL_PORT = 20,
     RIGHT_FRONT_WHEEL_PORT = 7,
 
     CLAMP_PORT = 'G',
     SORTER_PORT = 'F', 
-    DOINKER_PORT = 'H' //doesn't exist yet
+    DOINKER_PORT = 'H', //doesn't exist yet
+    AUTOCLAMP_PORT = 'D'
 };
 
 extern pros::Motor intake;
@@ -45,3 +47,4 @@ extern pros::Imu imu;
 extern pros::Optical light;
 
 extern pros::Controller master;
+extern lemlib::Chassis chassis;

@@ -9,6 +9,7 @@ void clamps();
 void wall_score();
 void sorter();
 void doinker();
+void autoClamp();
 
 void debugTurn();
 void debugDrive();

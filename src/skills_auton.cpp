@@ -51,6 +51,10 @@ void tune_PID(){
   //swing turn right
   //swing turn left
   //go straight for a while to check heading
+  chassis.setPose(0,0,0);
+  // chassis.turnToHeading(90, 100000);
+  chassis.moveToPoint(48,48,1000000);
+  chassis.waitUntilDone();
 }                                                                                                                                                                                                                                                                                                                                                                                                               
 //---------------------------------------------------------------------- Autons YR 2024-2025
 // Path 2 (Simple): Red, 2 donuts and touches
@@ -371,3 +375,6 @@ void skills(){
   // intaker_wait(INTAKE_SPEED, 2200); //6 rings scored
   // clamp.set_value(clamp_state); 
 }
+
+
+
